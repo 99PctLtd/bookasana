@@ -1,0 +1,216 @@
+<!-- templates/signup.html -->
+{% extends 'base.html' %}
+
+{% block title %}faq{% endblock %}
+
+{% block header %}
+    {% load staticfiles %}
+    <link rel="stylesheet" type="text/css" href="{% static 'faq.css' %}"/>
+    {#    <meta name="viewport" content="width=device-width, initial-scale=1">#}
+{% endblock %}
+
+{% block body %}
+    <div class="container theme-showcase" role="main">
+        <div class="container-body">
+            <h1 class="container-title">faq</h1>
+            <p>You got questions? we got answers.</p>
+            <div id="accordion">
+                <div class="card">
+                    <div class="card-header">
+                        <a class="card-link" data-toggle="collapse" href="#collapse1">
+                            Q1. Who are we?
+                        </a>
+                    </div>
+                    <div id="collapse1" class="collapse" data-parent="#accordion">
+                        <div class="card-body">
+                            <p>We are an independent agency that recognize the increasing frustration you experience
+                                while trying to reserve a mat in a yoga class with your favorite teacher. We are here to
+                                offer an alternative, attempting to reduce that level of stress by providing a booking
+                                service to reserve classes on your behave.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-header">
+                        <a class="collapsed card-link" data-toggle="collapse" href="#collapse2">
+                            Q2. What kind of service do you provide?
+                        </a>
+                    </div>
+                    <div id="collapse2" class="collapse" data-parent="#accordion">
+                        <div class="card-body">
+                            <p>Upon successful registration, which require valid login with Pure, you are no longer
+                                bounded by that scroll and click competition at 9:00 every morning. You will be able to
+                                list any class* as soon as the schedule becomes available**.</p>
+                            <p>Here are a few ideas of what the above can possibly mean:</p>
+                            <ul>
+                                <li>No more pressure to be around your phone or computer at 9:00 to get ready to refresh
+                                    the app/page.
+                                </li>
+                                <li>No more forgetting to reserve a mat at 9:00 while you are stuck in early
+                                    morning meeting, or occupied by all the necessary house work.
+                                </li>
+                                <li>No more worrying class fill up while you are waiting for slow internet connection
+                                    during your morning commute.
+                                </li>
+                                <li>No more checking your wait list position, praying to move up hours before class
+                                    start.
+                                </li>
+                            </ul>
+                             <p>While we won't be able to free up mat in classes within two days, we will be able to help you get
+                                 into any class with advance booking.</p>
+                            <p>YES! We are confident that we can always reserve the class you desire, and we will NOT
+                                charge you unless you get a mat. We won't even charge for getting you on the wait
+                                list, we consider that a failure on our part. Only when the booking is successful, we
+                                will deduct from your balance the amount of token you spend on the class.</p>
+                            <p>All in all, you will be able to list your favorite class with us, days before
+                                reservation opens, expecting you will always be able to get a mat in the most popular
+                                class. Why stress over it everyday while you can be over with it once a week stress
+                                free?</p>
+                            <br>
+                            <p>* You can only reserve classes in the specific centers per contract signed with
+                                Pure.</p>
+                            <p>** Classes and staffs do change occasionally after schedule is released. While we make
+                                our best effort to keep up with the changes, you hold the responsibility to ensure the
+                                latest class schedule remain align with your needs.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-header">
+                        <a class="collapsed card-link" data-toggle="collapse" href="#collapse3">
+                            Q3. Why do I need to provide my Pure login?
+                        </a>
+                    </div>
+                    <div id="collapse3" class="collapse" data-parent="#accordion">
+                        <div class="card-body">
+                            <p>As we are an independent agency, we do not have direct access to the scheduling app/page.
+                                Like you, we also need your valid login in order to access the schedule and reserve a
+                                class. By using our service, you are giving us permission to reserve class on your
+                                behalf.</p>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-header">
+                        <a class="collapsed card-link" data-toggle="collapse" href="#collapse4">
+                            Q4. What would you do with my personal information?
+                        </a>
+                    </div>
+                    <div id="collapse4" class="collapse" data-parent="#accordion">
+                        <div class="card-body">
+                            <p>Your privacy is very import to us, we take the security of your personal information very
+                                seriously, and strive to use commercially acceptable means to protect it.</p>
+                            <p>The data we collect may be used, but is not limited to:</p>
+                            <ul>
+                                <li>To provide and maintain the Service</li>
+                                <li>To notify you about changes to our Service</li>
+                                <li>To allow you to participate in interactive features of our Service when you choose
+                                    to do so
+                                </li>
+                                <li>To provide customer care and support</li>
+                                <li>To provide analysis or valuable information so that we can improve the Service</li>
+                                <li>To monitor the usage of the Service</li>
+                                <li>To detect, prevent and address technical issues</li>
+                            </ul>
+                            <p>For more details you may refer to our <a href="{% url 'privacy_policy' %}">
+                                privacy policy</a>.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-header">
+                        <a class="collapsed card-link" data-toggle="collapse" href="#collapse5">
+                            Q5. How does bookasana work?
+                        </a>
+                    </div>
+                    <div id="collapse5" class="collapse" data-parent="#accordion">
+                        <div class="card-body">
+                            <p>You would receive <strong>5 free tokens</strong> upon successful registration.</p>
+                            <p>Each advance reservation will require a minimum of 1 token to add to reservation list.
+                                Once a class is added to your reservation list, we will proceed to reserve that class
+                                for you when the appropriate time comes (9:00 two days before class).</p>
+                            <p>In the case of extremely popular classes, increasing the amount of token you spend in
+                                a class will increase your priority and chance of getting a mat.</p>
+                            <p>Indeed, you can use our system to reserve for classes within two days, which does not
+                                require any token.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-header">
+                        <a class="collapsed card-link" data-toggle="collapse" href="#collapse6">
+                            Q6. What are the pricing options?
+                        </a>
+                    </div>
+                    <div id="collapse6" class="collapse" data-parent="#accordion">
+                        <div class="card-body">
+                            <p>There are three purchasing options:</p>
+                            <ul>
+                                <li>Plan A: 1 token for $6.9</li>
+                                <li>Plan B: 10 tokens for $59.9</li>
+                                <li>Plan C: 30 tokens for $149.9</li>
+                            </ul>
+                            <p>We currently accepting all major credit cards.</p>
+{#                            <p>We currently accepting all major credit cards. We also support Alipay and Apple Pay.</p>#}
+                        </div>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-header">
+                        <a class="collapsed card-link" data-toggle="collapse" href="#collapse7">
+                            Q7. Can I purchase token other then using credit card?
+                            I am concern about the security of my credit card information.
+                        </a>
+                    </div>
+                    <div id="collapse7" class="collapse" data-parent="#accordion">
+                        <div class="card-body">
+                            <p>Our online payment system accepting VISA, Master and AMEX.</p>
+                            <p>We do not store any of your credit card information in our database, all of our online
+                                payments are process through a platform named Stripe. Stripe is one of the largest
+                                online payment system trusted by many of the well known internet companies such as,
+                                Amazon, Facebook, Google, The Guardian, Spotify, and Uber. We believe it is secure and
+                                safe for your worry free online payment experience.</p>
+                            <p>For alternative payment methods, contact
+                                <a href="mailto:admin@bookasana.com?Subject=Payment%20enquiry">
+                                    <b>admin@bookasana.com</b>
+                                </a>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-header">
+                        <a class="collapsed card-link" data-toggle="collapse" href="#collapse8">
+                            Q8. How do I start?
+                        </a>
+                    </div>
+                    <div id="collapse8" class="collapse" data-parent="#accordion">
+                        <div class="card-body">
+                            <p>You have to be a member of Pure yoga and have access to a valid login, you can
+                                register <a href="{% url "authentication:register" %}"><b>[ here ]</b></a>.</p>
+                            <p>An activation email will be sent to your Pure login/Email address upon the submission of
+                                registration form, follow the instructions to complete the registration process.</p>
+                            <p>If you do not receive an email, please make sure you have entered the correct Pure
+                                login/email address, and check your spam folder.</p>
+                        </div>
+                    </div>
+                </div>
+                <br><br><br>
+                <p>
+                    Did not find the answer you were looking for? Get in touch with us by emailing
+                    <a href="mailto:info@bookasana.com?Subject=General%20enquiry"><b>info@bookasana.com</b></a>,
+                    we will get back to you as soon as possible.
+                </p>
+            </div>
+            <br>
+        </div>
+    </div>
+{% endblock %}
+
+{% block ws_channels %}
+{% endblock %}
+
+{% block footer %}
+{% endblock %}

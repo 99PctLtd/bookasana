@@ -1,0 +1,249 @@
+.maxWidth {
+    /*max-width: 768px;*/
+    max-width: 600px;
+}
+
+.click_on_white:hover {
+    color: white;
+    background-color: black;
+}
+
+.click_on_black:hover {
+    color: black;
+    background-color: white;
+}
+
+.container-fluid {
+    margin-top: 30px;
+    width: 98vw
+}
+
+.headline {
+    font-family: 'Raleway', sans-serif;
+    font-weight: 300;
+    font-size: 32px;
+
+    margin-left: -1vw;
+    position: -webkit-sticky; /* Safari */
+    position: sticky;
+    z-index:1000;
+    top: 40px;
+    background-color: white;
+}
+
+.modal-content{
+    font-family: 'Raleway', sans-serif;
+    font-weight: 300;
+}
+
+.modal-title {
+    font-size: 22px;
+}
+
+.schedule_content_balance{
+    font-family: 'Raleway', sans-serif;
+    font-weight: 300;
+    font-size: 12px;
+    color: black;
+    text-decoration: none;
+
+    padding: 1px;
+}
+
+.schedule_content_cart{
+    font-family: 'Raleway', sans-serif;
+    font-weight: 300;
+    font-size: 12px;
+    color: white;
+    text-decoration: none;
+
+    padding: 1px;
+    background-color: black;
+}
+
+.schedule_content_total{
+    font-family: 'Raleway', sans-serif;
+    font-weight: 300;
+    font-size: 12px;
+    color: white;
+    text-decoration: none;
+
+    padding: 1px;
+    border-top: 1px solid white;
+    background-color: black;
+}
+
+.schedule_date {
+    font-family: 'Raleway', sans-serif;
+    font-weight: 300;
+    font-size: 22px;
+
+    position: -webkit-sticky; /* Safari */
+    position: sticky;
+    z-index:900;
+    top: 155px;
+
+    background-color: white;
+}
+
+.schedule_label{
+    font-family: 'Raleway', sans-serif;
+    font-weight: 300;
+
+    position: -webkit-sticky; /* Safari */
+    position: sticky;
+    z-index:900;
+    top: 115px;
+
+    background-color: white;
+    border-bottom: 1px solid black;
+}
+
+.schedule_label_cart{
+    font-family: 'Raleway', sans-serif;
+    font-weight: 300;
+    color: white;
+
+    position: -webkit-sticky; /* Safari */
+    position: sticky;
+    z-index:1100;
+    top: 115px;
+
+    background-color: black;
+    border-bottom: 1px solid white;
+}
+
+.schedule_label_woUnderline{
+    border-bottom: none;
+}
+
+.schedule_title {
+    font-family: 'Raleway', sans-serif;
+    font-weight: 300;
+    font-size: 22px;
+    color: black;
+
+    position: -webkit-sticky; /* Safari */
+    position: sticky;
+    z-index:900;
+    top: 82px;
+
+    background-color: white;
+}
+
+.schedule_title_cart {
+    font-family: 'Raleway', sans-serif;
+    font-weight: 300;
+    font-size: 22px;
+    color: white;
+
+    position: -webkit-sticky; /* Safari */
+    position: sticky;
+    z-index:1100;
+    top: 82px;
+
+    background-color: black;
+}
+
+.schedule_title_underline {
+    font-family: 'Raleway', sans-serif;
+    font-weight: 300;
+    font-size: 22px;
+
+    position: -webkit-sticky; /* Safari */
+    position: sticky;
+    z-index:900;
+    top: 82px;
+
+    background-color: white;
+    padding-bottom: 5px;
+    border-bottom: 1px solid black;
+}
+
+
+.schedule_selected {
+    color: #b4b4b4;
+}
+
+.schedule_action {
+    font-family: 'Raleway', sans-serif;
+    font-weight: 300;
+    font-size: 11px;
+
+    text-decoration: none;
+    top: 3px;
+}
+
+.shopping-form-control {
+    font-family: 'Raleway', sans-serif;
+    font-weight: 300;
+    font-size: 12px;
+    color: black;
+}
+
+.submit_row_cart{
+    background: black;
+}
+
+.submit_row_cart_txt{
+    font-family: 'Raleway', sans-serif;
+    font-weight: 300;
+    font-size: 12px;
+
+    text-decoration: none;
+}
+
+.submit_row_cart_txt:hover{
+    color: black;
+    background: white;
+}
+
+.submit_button{
+    font-family: 'Raleway', sans-serif;
+    font-weight: 300;
+    font-size: 12px;
+
+    margin-top: -5px;
+    background-color: transparent;
+    /*text-decoration: none;*/
+    color: #167ffb;
+    border: none;
+    padding: 0;
+    cursor: pointer;
+    /*width: 125px;*/
+}
+
+.submit_button:hover{
+    text-decoration: underline;
+
+    background-color: black;
+    color: white;
+}
+
+.update_cart_txt{
+    font-family: 'Raleway', sans-serif;
+    font-weight: 300;
+    font-size: 12px;
+    text-decoration: none;
+}
+
+.update_cart_txt:hover{
+    color: black;
+    background: white;
+}
+
+.btn_white {
+    padding: 0 0 0 10px;
+    fill: white;
+}
+
+.btn_white:hover {
+    padding: 0 0 0 10px;
+    fill: #167ffb;
+}
+
+input{
+    border: none;
+    box-shadow: 0px 1px 0px rgba(0, 0, 0, 1);
+    width: 80px;
+}

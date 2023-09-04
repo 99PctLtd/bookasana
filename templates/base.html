@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>bookasana | {% block title %} booking with ease {% endblock %}</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css">
+    <link href="https://fonts.googleapis.com/css?family=Hind:300|Raleway:300,500" rel="stylesheet" type="text/css">
+    <!-- loads the path to your static files -->
+    {% load staticfiles %}
+    <script src="{% static 'vanillatoasts.js' %}"></script>
+    <link href="{% static 'vanillatoasts.css' %}" rel="stylesheet"/>
+    <link rel="stylesheet" type="text/css" href="{% static 'style_base.css' %}"/>
+    <link rel="shortcut icon" type="image/png" href="{% static 'img/apple-touch-icon.png.png' %}"/>
+    {% block header %}
+    {% endblock %}
+</head>
+<body onload="createToasts_sysmsg()">
+    <div class="page-container">
+        <nav class="navbar navbar-expand-md fixed-top navbar-light navbar-custom py-0">
+            <a class="navbar-brand py-0" href="{% url 'index' %}">BOOKASANA.COM</a><a class="beta">(beta)</a>
+            <button class="navbar-toggler type="button" data-toggle="collapse" data-target="#navbarTogglerDemo02" `
+                    aria-controls="navbarTogglerDemo02" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <!-- Collect the nav links, forms, and other content for toggling -->
+            <div class="collapse navbar-collapse" id="navbarTogglerDemo02">
+                <ul class="navbar-item navbar-nav ml-auto">
+                    {% if user.is_authenticated and user.is_active %}
+                        <li class="nav-item">
+                            <a class="nav-link py-0" href="{% url 'booking:my_class' %}">my class</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link py-0" href="{% url 'account:my_info' %}">my info</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link py-0" href="{% url 'shopping_cart:shopping_top_up' %}">top-up</a>
+                        </li>
+                    {% endif %}
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle nav-link py-0" data-toggle="dropdown" role="button"
+                           aria-haspopup="true"
+                           aria-expanded="false">schedule<span class="caret"></span></a>
+                        <ul class="dropdown-menu">
+                            <li class="nav-item"><a class="nav-link py-1 ml-sm-2" href="{% url 'schedule:schedule_current' %}">
+                                yoga <b>hk</b></a>
+                            </li>
+        {#                    <li class="nav-item"><a class="nav-link py-1 ml-sm-2" href="#">yoga <b>bj + sh</b></a></li>#}
+        {#                    <li class="nav-item"><a class="nav-link py-1 ml-sm-2" href="#">yoga <b>sg</b></a></li>#}
+                            <div class="dropdown-divider"></div>
+                            <li class="nav-item"><a class="nav-link py-1 ml-sm-2">fitness <b>hk</b> [ soon... ]</a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item">
+                        {% if user.is_authenticated and user.is_active %}
+                            <form class="nav-link py-0" action="{% url 'authentication:logout' %}" method="post">
+                                {% csrf_token %}
+                                <button class="button" type="submit">logout</button>
+                            </form>
+                        {% else %}
+                            <a class="nav-link py-0" href="{% url 'authentication:login' %}">login</a>
+                        {% endif %}
+                    </li>
+                </ul>
+            </div>
+        </nav>
+        <!-- /.navbar-collapse -->
+
+        <div class="wrapper">
+            {% block body %}
+            {% endblock %}
+        </div>
+
+        <footer class="footer">
+            <div class="info-box">
+                <div class="user-login-info">
+                    {% if user.is_authenticated and user.is_active %}
+                        <a class="info-box" href="{% url 'booking:my_class' %}">
+                            Login as <b>{{ user.username }}</b> ( {{ user.profile.token_single }} tokens )
+                        </a>
+                    {% else %}
+                        <a class="title-link" href="{% url 'authentication:register' %}"><b>[ click here to register now for
+                            free
+                            ]</b></a>
+                    {% endif %}
+                </div>
+                {% block footer %}
+                {% endblock %}
+            </div>
+            <div class="wrapper">
+                <div class="terms_privacy">
+                    <a>
+                        <a class="terms_privacy_text" href="{% url 'terms_of_service' %}">terms of service</a>
+                        |
+                        <a class="terms_privacy_text" href="{% url 'privacy_policy' %}">privacy policy</a>
+                        |
+                        <a class="terms_privacy_text" href="{% url 'faq' %}">faq</a>
+                        <br>
+                        <a class="terms_privacy_text">copyright © 2019 bookasana.com all rights reserved</a>
+                    </a>
+                    <br>
+                </div>
+            </div>
+        </footer>
+
+        {% block ws_channels %}
+        {% endblock %}
+
+        <script>
+            function createToasts_sysmsg() {
+                {% if messages %}
+                    {% for message in messages %}
+                        VanillaToasts.create({
+                            text: '{{ message }}',
+                            type: '{{ message.tags }}', // success, info, warning, error   / optional parameter
+                            timeout: 10000 // hide after 10000ms, // optional parameter
+                        });
+                    {% endfor %}
+                {% endif %}
+            }
+        </script>
+
+        <div id="vanillatoasts-container"></div>
+
+        <!-- bootstrap script -->
+        <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+                integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+                crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+                integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+                crossorigin="anonymous"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+                integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+                crossorigin="anonymous"></script>
+    </div>
+</body>
+</html>

@@ -1,0 +1,119 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block title %} checkout {% endblock %}
+
+{% block header %}
+    {% load staticfiles %}
+    <link rel="stylesheet" type="text/css" href="{% static '/shopping_cart/style_checkout_summary.css' %}"/>
+{% endblock %}
+
+{% block body %}
+    <div class="container-fluid maxWidth">
+        <div class="headline sticky">checkout</div>
+        <!-- PURCHASING OPTIONS-->
+        <div class="row schedule_title sticky">
+            <div class="col-8 px-1">order summary</div>
+            <div class="col-4 px-1 text-right align-bottom update_cart_txt">reference
+                code: {{ order.ref_code }}</div>
+        </div>
+        <div class="row schedule_label sticky">
+            <div class="col-2 d-none d-block px-1"><b>item</b></div>
+            <div class="col-2 d-none d-block px-1"></div>
+            <div class="col-2 d-none d-block px-1"><b>price</b></div>
+            <div class="col-2 d-none d-block px-1"><b>quantity</b></div>
+            <div class="col-1 d-none d-block px-1"><b></b></div>
+            <div class="col-2 d-none d-block px-1"><b>subtotal</b></div>
+            <div class="col-1 d-none d-block px-1"><b></b></div>
+        </div>
+        <div class="row summary_content">
+            {% for item in order_items %}
+                {% if item.product.token_single == 1 %}
+                    <div class="col-2 px-1">{{ item.product.name }}</div>
+                    <div class="col-2 px-1">{{ item.product.token_single }} token</div>
+                {% else %}
+                    <div class="col-2 px-1">{{ item.product.name }}</div>
+                    <div class="col-2 px-1">{{ item.product.token_single }} tokens</div>
+                {% endif %}
+                <div class="col-2 px-1">$ {{ item.product.price }}</div>
+                <div class="col-2 px-1">x {{ item.item_quantity }}</div>
+                <div class="col-2 px-1">{{ item.get_order_item_token_total }}</div>
+                <div class="col-2 px-1">$ {{ item.get_order_item_price_total }}</div>
+            {% endfor %}
+            <div class="col-7 px-1"></div>
+            <div class="col-1 px-1"><b>total</b></div>
+            <div class="col-2 px-1"><b>{{ order.get_cart_token_total }} tokens</b></div>
+            <div class="col-2 px-1"><b>$ {{ order.get_cart_price_total }}</b></div>
+        </div>
+        <br>
+        <div class="row submit_order">
+            <div class="col col-sm-4 px-1">
+                <a class="submit_cart_txt" href="{% url 'shopping_cart:shopping_top_up' %}">
+                    <b>[ RETURN TO CART ]</b>
+                </a>
+            </div>
+            <div class="col-1 col-sm-4 px-1"></div>
+            <div class="col col-sm-4 text-right text-sm-right px-1">
+                <a class="submit_cart_txt" href="#" onclick="toggleDisplay()">
+                    <b>[ PAY WITH CARD ]</b>
+                </a>
+            </div>
+        </div>
+        <br>
+        <div id="collapseStripe" class="wrapper row paymentStripe px-1" style="display: none;">
+            <script src="https://js.stripe.com/v3/"></script>
+            <div class="schedule_title_white">
+                pay with card
+            </div>
+            <form action="." method="post" id="payment-form">
+                {% csrf_token %}
+                <div class="card-element schedule_label_white">
+                    enter your credit card info below
+                </div>
+                <br>
+                <div class="form-row flex-column">
+                    <div id="card-element">
+                        <!-- A Stripe Element will be inserted here. -->
+                    </div>
+                    <br>
+                    <!-- Used to display form errors. -->
+                    <div id="card-errors" class="summary_content" role="alert"></div>
+                </div>
+                <br>
+                <button class="submit_button"><b>[ PAY $ {{ order.get_cart_price_total }} ]</b></button>
+            </form>
+        </div>
+    </div>
+
+
+    <!-- script for the stripe form -->
+    <script id="stripe" key="{{ STRIPE_PUBLISHABLE_KEY }}" src="{% static 'js/checkout.js' %}"></script>
+{#    <script src="{% static 'js/checkout.js' %}"></script>#}
+
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+            integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+            crossorigin="anonymous"></script>
+
+    <!-- script for toggling display of the form -->
+    <script type="text/javascript">
+        $('#bar').click(function () {
+            $('#foo').slideToggle('slow');
+        });
+
+        function toggleDisplay() {
+            var x = document.getElementById("collapseStripe");
+            if (x.style.display === "none") {
+                x.style.display = "block";
+            } else {
+                x.style.display = "none";
+            }
+        };
+    </script>
+{% endblock %}
+
+{% block ws_channels %}
+{% endblock %}
+
+{% block footer %}
+{% endblock %}

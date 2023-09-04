@@ -1,0 +1,74 @@
+{% extends 'base.html' %}
+
+{% block header %}
+    {% load staticfiles %}
+    <link rel="stylesheet" type="text/css" href="{% static 'style_index.css' %}"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+{% endblock %}
+
+{% block body %}
+    <!-- Carousel ================================================== -->
+    <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
+        <ol class="carousel-indicators">
+            <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
+            <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
+            <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
+        </ol>
+        <div class="carousel-inner">
+            <div class="carousel-item active">
+                <div class="container">
+                    <br><br><br><br>
+                    <h1 class="container-title">BOOKASANA.COM <a class="beta">(beta)<a></h1>
+                        <P>Feeling stressed about getting into your favorite yoga
+                            classes at Pure? Sign up and never miss another class
+                            again! Booking classes is our speciality, let us worry about
+                            the booking, so that you can focus on your asana practice.</P>
+                        <P>1. <b>Book your favourite classes with ease,</b> aerial, chair,
+                            evening classes, wall rope, yoga wheel, you name it! You
+                            will never miss any class with your favourite teacher again.</P>
+                        <P>2. <b>Book class anytime, anywhere.</b> You can set to book
+                            classes as soon as the schedule becomes available.</P>
+                        <P>3. <b>Use first, pay later.</b> You have up to 5 tokens to spend
+                            upon registration. If you decide to continue using our
+                            service, simply recharge and keep using. You have
+                            absolutely nothing to lose but everything to gain!</P>
+                </div>
+            </div>
+            <div class="carousel-item">
+                <div class="container">
+                    <br><br><br><br><br><br><br><br>
+                    <h1 class="container-title">TRY NOW FOR FREE</h1><br>
+                    <P>Register now to get up to <b>five free bookings!</b> All you need is a valid Pure membership.<br><br>
+                    <h1 class="container-title">
+                        <a class="title-link" href="{% url 'authentication:register' %}">[ REGISTER NOW ]</a>
+                    </h1>
+                </div>
+            </div>
+            <div class="carousel-item">
+                <div class="container">
+                    <br><br><br><br><br><br><br><br><br><br>
+                    <h1 class="container-title">QUESTIONS? </h1>
+                    <P>Take a look at our <a class="title-link" href="/faq/"><b>[ FAQ section ]</b></a>,
+                        or send your questions to
+                        <a href="mailto:info@bookasana.com?Subject=General%20enquiry"><b>info@bookasana.com</b></a>.
+                        We will get back to you as soon as possible.</P>
+                </div>
+            </div>
+        </div>
+        <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="sr-only">Previous</span>
+        </a>
+        <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="sr-only">Next</span>
+        </a>
+    </div>
+    <!-- /.carousel -->
+{% endblock %}
+
+{% block ws_channels %}
+{% endblock %}
+
+{% block footer %}
+{% endblock %}

@@ -1,0 +1,104 @@
+#vanillatoasts-container {
+    position: fixed;
+    top: 60px;
+    z-index: 2000;
+    /*top: 0;*/
+    right: 0;
+    width: 350px;
+    font-family: 'Raleway', sans-serif;
+    font-weight: 300;
+}
+
+.vanillatoasts-toast {
+    position: relative;
+    padding: 5px 17px;
+    margin: 5px 10px;
+    border-radius: 10px;
+    /*background: rgba(0, 0, 0, 0.7);*/
+    background: rgba(255, 255, 255, 0.95);
+    cursor: pointer;
+    box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.3);
+    animation-duration: .3s;
+    animation-name: VanillaToasts;
+    animation-timing-function: cubic-bezier(0.215, 0.610, 0.355, 1.000);
+}
+
+.vanillatoasts-fadeOut {
+    animation-name: VanillaToastsFadeOut;
+    animation-duration: .3s;
+    animation-timing-function: cubic-bezier(0.215, 0.610, 0.355, 1.000);
+    animation-fill-mode: forwards;
+}
+
+#vanillatoasts-container p,
+#vanillatoasts-container h4 {
+    margin: 3px 0 !important;
+}
+
+.vanillatoasts-title {
+    font-weight: 700;
+    font-size: 15px;
+    margin-bottom: 10px;
+    /*color: white;*/
+}
+
+.vanillatoasts-text {
+    font-size: 13px;
+    /*color: darkgray;*/
+    /*color: white;*/
+}
+
+.vanillatoasts-icon {
+    position: absolute;
+    top: 5px;
+    left: -40px;
+    width: 50px;
+    height: 50px;
+    border-radius: 100%;
+    box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.1);
+    background: #FFF;
+}
+
+.vanillatoasts-toast a, .vanillatoasts-toast a:hover {
+    color: #549EDB !important;
+    text-decoration: none !important;
+}
+
+/** toast types */
+.vanillatoasts-success {
+    border-bottom: 3px solid lime;
+}
+
+.vanillatoasts-warning {
+    border-bottom: 3px solid yellow;
+}
+
+.vanillatoasts-error {
+    border-bottom: 3px solid red;
+}
+
+.vanillatoasts-info {
+    border-bottom: 3px solid black;
+}
+
+@keyframes VanillaToasts {
+    from {
+        transform: translate3d(400px, 0, 0);;
+        opacity: 0;
+    }
+    to {
+        transform: translate3d(0, 0, 0);
+        opacity: 1;
+    }
+}
+
+@keyframes VanillaToastsFadeOut {
+    from {
+        transform: translate3d(0, 0, 0);
+        opacity: 1;
+    }
+    to {
+        transform: translate3d(400px, 0, 0);
+        opacity: 0;
+    }
+}
