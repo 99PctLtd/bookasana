@@ -1,0 +1,62 @@
+{% extends 'base.html' %}
+
+{% block title %} ref {{ order.ref_code }} {% endblock %}
+
+{% block header %}
+    {% load staticfiles %}
+    <link rel="stylesheet" type="text/css" href="{% static '/shopping_cart/style_checkout_summary.css' %}"/>
+{% endblock %}
+
+{% block body %}
+    <div class="container-fluid maxWidth">
+        <div class="headline sticky">transaction history</div>
+        <!-- PURCHASING OPTIONS-->
+        <div class="row schedule_title sticky">
+            <div class="col-8 px-1">order summary</div>
+            <div class="col-4 px-1 text-right align-bottom update_cart_txt">reference code: {{ order.ref_code }}</div>
+        </div>
+        <div class="row schedule_label">
+            <div class="col-2 d-none d-block px-1"><b>item</b></div>
+            <div class="col-2 d-none d-block px-1"></div>
+            <div class="col-2 d-none d-block px-1"><b>price</b></div>
+            <div class="col-2 d-none d-block px-1"><b>quantity</b></div>
+            <div class="col-1 d-none d-block px-1"><b></b></div>
+            <div class="col-2 d-none d-block px-1"><b>subtotal</b></div>
+            <div class="col-1 d-none d-block px-1"><b></b></div>
+        </div>
+        <div class="row summary_content">
+            {% for item in order_items %}
+                {% if item.product.token_single == 1 %}
+                    <div class="col-2 px-1">{{ item.product.name }}</div>
+                    <div class="col-2 px-1">{{ item.product.token_single }} token</div>
+                {% else %}
+                    <div class="col-2 px-1">{{ item.product.name }}</div>
+                    <div class="col-2 px-1">{{ item.product.token_single }} tokens</div>
+                {% endif %}
+                <div class="col-2 px-1">$ {{ item.product.price }}</div>
+                <div class="col-2 px-1">x {{ item.item_quantity }}</div>
+                <div class="col-2 px-1">{{ item.get_order_item_token_total }}</div>
+                <div class="col-2 px-1">$ {{ item.get_order_item_price_total }}</div>
+            {% endfor %}
+            <div class="col-7 px-1"></div>
+            <div class="col-1 px-1"><b>total</b></div>
+            <div class="col-2 px-1"><b>{{ order.get_cart_token_total }} tokens</b></div>
+            <div class="col-2 px-1"><b>$ {{ order.get_cart_price_total }}</b></div>
+        </div>
+        <br>
+        <div class="row submit_order">
+            <div class="col text-right px-1">
+                <a class="submit_cart_txt" href="{% url 'account:my_info' %}">
+                    <b>[ return to my info ]</b>
+                </a>
+            </div>
+        </div>
+        <br>
+    </div>
+{% endblock %}
+
+{% block ws_channels %}
+{% endblock %}
+
+{% block footer %}
+{% endblock %}

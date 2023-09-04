@@ -1,0 +1,107 @@
+/*@media screen and (max-width: 768px) {*/
+@media screen and (min-width: 576px) {
+  div.phone_large {
+    font-size: 12px;
+  }
+
+  div.phone_small {
+    font-size: 12px;
+  }
+}
+
+/*@media screen and (max-width: 767px) {*/
+@media screen and (max-width: 575px) {
+  div.phone_large {
+    font-size: 15px;
+  }
+
+  div.phone_small {
+    font-size: 11px;
+  }
+}
+
+.click_on_white:hover {
+    color: white;
+    background-color: black;
+}
+
+.click_on_black:hover {
+    color: black;
+    background-color: white;
+}
+
+.container-fluid {
+    margin-top: 50px;
+    width: 98vw;
+}
+
+.headline {
+    font-family: 'Raleway', sans-serif;
+    font-weight: 300;
+    font-size: 32px;
+
+    width: 98.5vw;
+    margin: auto;
+    position: -webkit-sticky; /* Safari */
+    position: sticky;
+    z-index:1000;
+    top: 55px;
+    background-color: white;
+}
+
+.form-control {
+    font-family: 'Raleway', sans-serif;
+    font-weight: 300;
+    font-size: 22px;
+}
+
+.schedule_action {
+    font-family: 'Raleway', sans-serif;
+    font-weight: 300;
+    font-size: 11px;
+
+    text-decoration: none;
+    top: 3px;
+}
+
+.schedule_content_booking{
+    font-family: 'Raleway', sans-serif;
+    font-weight: 300;
+    font-size: 12px;
+    color: black;
+    text-decoration: none;
+
+    border-top: 1px solid lightgrey;
+    padding: 1px;
+}
+
+.schedule_label{
+    font-family: 'Raleway', sans-serif;
+    font-weight: 300;
+
+    position: -webkit-sticky; /* Safari */
+    position: sticky;
+    z-index:900;
+    top: 155px;
+
+    background-color: white;
+    border-bottom: 1px solid black;
+}
+
+.schedule_selected {
+    color: #b4b4b4;
+}
+
+.schedule_title {
+    font-family: 'Raleway', sans-serif;
+    font-weight: 300;
+    font-size: 22px;
+    color: black;
+
+    position: -webkit-sticky; /* Safari */
+    position: sticky;
+    z-index:900;
+    top: 110px;
+
+    background-color: white;
+}

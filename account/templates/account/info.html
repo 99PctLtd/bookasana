@@ -1,0 +1,146 @@
+{% extends 'base.html' %}
+{% block title %} my info {% endblock %}
+
+{% block header %}
+    {% load staticfiles %}
+    <link rel="stylesheet" type="text/css" href="{% static 'account/style_info.css' %}"/>
+{% endblock %}
+
+{% block body %}
+    <div class="headline sticky">
+        my info
+    </div>
+    <div class="container-fluid">
+        <!--My BALANCE-->
+        <div class="row schedule_title sticky">
+            <div class="col-sm-12 px-1">my profile</div>
+        </div>
+        <div class="row schedule_label">
+            <div class="col-sm-12 d-none d-sm-block px-1"></div>
+        </div>
+        <div class="row schedule_content_booking">
+            <div class="col-4 col-md-2 px-1 order-md-1">Name</div>
+            <div class="col-6 col-md-3 px-1 order-md-1">{{ user_profile.user.last_name }}, {{ user_profile.user.first_name }}</div>
+            <div class="col-2 col-md-1 text-right text-md-left px-1 schedule_action order-md-1">
+                <a class="click_on_white" href="{% url 'authentication:EditProfile' %}">
+                    <b>[ edit ]</b>
+                </a>
+            </div>
+            <div class="col-4 col-md-2 px-1 order-md-3">Username</div>
+            <div class="col-8 col-md-4 px-1 order-md-3">{{ user_profile.user.username}}</div>
+            <div class="col-4 col-md-2 px-1 order-md-5">Phone</div>
+            <div class="col-8 col-md-4 px-1 order-md-5">{{ user_profile.user.mobile_phone}}</div>
+            <div class="col-4 col-md-2 px-1 order-md-7">Pure login</div>
+            <div class="col-8 col-md-4 px-1 order-md-7">{{ user_profile.user.pure_login }}</div>
+            <div class="col-4 col-md-2 px-1 order-md-9">Pure password</div>
+            <div class="col-8 col-md-10 px-1 order-md-9">
+                {% for x in user_profile.user.pure_password %}
+                    *
+                {% endfor %}
+            </div>
+            <div class="col-4 col-md-2 px-1 order-md-10">Available token</div>
+            <div class="col-6 col-md-3 px-1 order-md-10">{{ user_profile.token_single }}</div>
+            <div class="col-2 col-md-7 text-right text-md-left px-1 schedule_action order-md-10">
+                <a class="click_on_white" href="{% url 'shopping_cart:shopping_top_up' %}">
+                    <b>[ top-up ]</b>
+                </a>
+            </div>
+            {% if user_profile.get_token_needed == 1 %}
+                <div class="col-4 col-md-2 px-1 order-md-10">&nbsp;</div>
+                <div class="col-8 col-md-10 px-1 order-md-10">( {{ user_profile.get_token_needed }} required for listed booking. )</div>
+            {% elif user_profile.get_token_needed > 1 %}
+                <div class="col-4 col-md-2 px-1 order-md-10">&nbsp;</div>
+                <div class="col-8 col-md-10 px-1 order-md-10">( {{ user_profile.get_token_needed }} required for listed bookings. )</div>
+            {% endif %}
+            <div class="col-12 col-md-2 px-1 order-md-12"><br></div>
+
+            {% if user_profile.membership_exp_yoga > date_today %}
+                <div class="col-4 col-md-2 px-1 order-md-2">Yoga membership</div>
+                <div class="col-8 col-md-4 px-1 order-md-2">{{ user_profile.membership_type_yoga }}</div>
+            {% else %}
+                <div class="col-4 col-md-2 px-1 order-md-2">Yoga membership</div>
+                <div class="col-8 col-md-4 px-1 order-md-2">None - you have no valid yoga membership.</div>
+            {% endif %}
+            {% if user_profile.membership_exp_yoga > date_today %}
+                <div class="col-4 col-md-2 px-1 order-md-4">Expiration date</div>
+                <div class="col-8 col-md-4 px-1 order-md-4">{{ user_profile.membership_exp_yoga }}</div>
+            {% else %}
+                <div class="col-12 col-md-6 px-1 order-md-4"></div>
+            {% endif %}
+            {% if user_profile.membership_exp_fitness > date_today %}
+                <div class="col-4 col-md-2 px-1 order-md-6">Fit. membership</div>
+                <div class="col-8 col-md-4 px-1 order-md-6">{{ user_profile.membership_type_fitness}}</div>
+            {% else %}
+                <div class="col-4 col-md-2 px-1 order-md-6">Fit. membership </div>
+                <div class="col-8 col-md-4 px-1 order-md-6">None - you have no valid fitness membership</div>
+            {% endif %}
+            {% if user_profile.membership_exp_fitness > date_today %}
+                <div class="col-4 col-md-2 px-1 order-md-8">Expiration date</div>
+                <div class="col-8 col-md-4 px-1 order-md-8">{{ user_profile.membership_exp_fitness }}</div>
+            {% else %}
+                <div class="col-12 col-md-6 px-1 order-md-8"></div>
+            {% endif %}
+        </div>
+        <br>
+
+        <!--My Transactions-->
+        <div class="row schedule_title sticky">
+            <div class="col-sm-4 px-1">my order history</div>
+            <div class="col-sm-8 px-1"></div>
+        </div>
+        <div class="row schedule_label">
+            <div class="col-sm-2 d-none d-sm-block px-1"><b>Date ordered</b></div>
+            <div class="col-sm-2 d-none d-sm-block px-1"><b>Ref. code</b></div>
+            <div class="col-sm-4 d-none d-sm-block px-1"><b>Items</b></div>
+            <div class="col-sm-1 d-none d-sm-block px-1"><b>Token</b></div>
+            <div class="col-sm-2 d-none d-sm-block px-1"><b>Amount</b></div>
+            <div class="col-sm-1 d-none d-sm-block px-1"></div>
+        </div>
+        {% if user_order %}
+            {% for order in user_order %}
+                <div id="schedule_row">
+                    <div class="row schedule_content_booking">
+                        <div class="col-3 text-right d-sm-none px-1 phone_large">{{ order.get_cart_token_total }} tokens</div>
+                        <div class="col-sm-1 d-none d-sm-block px-1 order-sm-9 phone_small">{{ order.get_cart_token_total }}</div>
+                        <div class="col-9 col-sm-4 px-1 order-sm-5 phone_large">{{ order.get_cart_items }}</div>
+                        <div class="col-3 col-sm-2 text-right text-sm-left px-1 order-sm-11 phone_small">$ {{ order.get_cart_price_total }}</div>
+                        <div class="col-auto col-sm-2 px-1 order-sm-1 phone_small">{{ order.date_ordered }}</div>
+                        <div class="col-auto d-sm-none px-1 phone_small">ref. code: {{ order.ref_code }}</div>
+                        <div class="col-sm-2 d-none d-sm-block px-1 order-sm-3 phone_small">{{ order.ref_code }}</div>
+                        <div class="col-12 col-sm-1 text-right text-sm-left px-1 order-sm-12 schedule_action phone_small">
+                            <a class="click_on_white" href={% url 'account:transaction_summary_single' order.id %}>[ detail ]</a>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+            {% if user_order_count > 5 %}
+                <div id="schedule_row">
+                    <div class="row schedule_content_booking">
+                        <div class="col-md-11 d-none d-md-block px-1"></div>
+                        <div class="col-12 col-md-1 text-right text-md-left px-1 schedule_action">
+                            <a class="click_on_white" href={% url 'account:transaction_history' %}>
+                                <b>[ all items ]</b>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            {% endif %}
+            <br>
+        {% else %}
+            <div id="schedule_row">
+                <div class="row schedule_content_booking">
+                    <div class="col-sm-12">you don't have any transaction history.</div>
+                </div>
+            </div>
+        {% endif %}
+        <br>
+        <br>
+        <br>
+    </div>
+{% endblock %}
+
+{% block ws_channels %}
+{% endblock %}
+
+{% block footer %}
+{% endblock %}
