@@ -1,0 +1,223 @@
+/*@media screen and (max-width: 768px) {*/
+@media screen and (min-width: 576px) {
+  div.phone_large {
+    font-size: 12px;
+  }
+
+  div.phone_small {
+    font-size: 12px;
+  }
+}
+
+/*@media screen and (max-width: 767px) {*/
+@media screen and (max-width: 575px) {
+  div.phone_large {
+    font-size: 15px;
+  }
+
+  div.phone_small {
+    font-size: 11px;
+  }
+}
+
+.add_to_schedule_none {
+    font-family: 'Raleway', sans-serif;
+    font-weight: 300;
+    font-size: 22px;
+    z-index:2000;
+
+    margin-top: -5px;
+    background-color: white;
+    color: black;
+    border: none;
+    padding: 0;
+    cursor: pointer;
+}
+
+.add_to_schedule_none:hover {
+    text-decoration: underline;
+    z-index:1500;
+
+    background-color: black;
+    color: white;
+}
+
+.add_to_schedule_item {
+    font-family: 'Raleway', sans-serif;
+    font-weight: 300;
+    font-size: 22px;
+    z-index:2000;
+
+    margin-top: -5px;
+    /*background-color: rgba(0, 0, 0, 0.5);*/
+    color: white;
+    border: none;
+    padding: 0;
+    cursor: pointer;
+}
+
+.add_to_schedule_item:hover {
+    text-decoration: underline;
+    z-index:1500;
+
+    background-color: white;
+    color: black;
+}
+
+.container-fluid {
+    margin-top: 30px;
+    width: 98vw;
+}
+
+.form-control {
+    font-family: 'Raleway', sans-serif;
+    font-weight: 300;
+    font-size: 22px;
+}
+
+.headline {
+    font-family: 'Raleway', sans-serif;
+    font-weight: 300;
+    font-size: 32px;
+
+    width: 98.5vw;
+    margin: auto;
+    position: sticky;
+    position: -webkit-sticky; /* Safari */
+    z-index: 1000;
+    top: 40px;
+    background-color: white;
+    padding-bottom: 10px;
+}
+
+.search {
+    border: 1px solid black;
+}
+
+.schedule_content, .schedule_content_expired{
+    font-family: 'Raleway', sans-serif;
+    font-weight: 300;
+    font-size: 12px;
+
+    color: black;
+    text-decoration: none;
+    border-top: 1px solid lightgrey;
+    padding: 1px;
+}
+
+.schedule_content_past{
+    font-family: 'Raleway', sans-serif;
+    font-weight: 300;
+    font-size: 12px;
+
+    color: #b4b4b4;
+    text-decoration: none;
+    border-top: 1px solid lightgrey;
+    padding: 1px;
+}
+
+.schedule_content_booked {
+    font-family: 'Raleway', sans-serif;
+    font-weight: 300;
+    font-size: 12px;
+    color: white;
+
+    padding: 1px;
+    background-color: black;
+}
+
+.schedule_content_booked_past {
+    font-family: 'Raleway', sans-serif;
+    font-weight: 300;
+    font-size: 12px;
+    /*color: white;*/
+
+    color: #b4b4b4;
+    padding: 1px;
+    background-color: black;
+}
+
+.schedule_content_listed {
+    font-family: 'Raleway', sans-serif;
+    font-weight: 300;
+    font-size: 12px;
+    color: white;
+
+    padding: 1px;
+    background-color: darkgray;
+}
+
+.schedule_content_selected {
+    font-family: 'Raleway', sans-serif;
+    font-weight: 300;
+    font-size: 12px;
+    color: black;
+
+    outline: 2px dashed black;
+    outline-offset: -2px;
+    padding: 1px;
+}
+
+.schedule_content:hover, .schedule_content_listed:hover, .schedule_content_selected:hover {
+    color: black;
+
+    text-decoration: none;
+    background-color: #f0f0f0;
+}
+
+.schedule_label{
+    font-family: 'Raleway', sans-serif;
+    font-weight: 300;
+
+    position: sticky;
+    position: -webkit-sticky; /* Safari */
+    z-index: 900;
+    top: 158px;
+    background-color: white;
+    /*padding-bottom: 5px;*/
+    border-bottom: 1px solid black;
+}
+
+.schedule_title {
+    font-family: 'Raleway', sans-serif;
+    font-weight: 300;
+    font-size: 22px;
+
+    position: sticky;
+    position: -webkit-sticky; /* Safari */
+    z-index: 900;
+    top: 125px;
+    background-color: white;
+
+}
+
+.anchor_classDetail {
+    display: block;
+    height: 222px; /*same height as header*/
+    margin-top: -222px; /*same height as header*/
+    visibility: hidden;
+}
+
+.user-booking-info_item {
+    bottom: 50px;
+
+    position: fixed;
+    z-index: 1500;
+    right: 10px;
+    padding: 2px 5px 2px 5px;
+    background: rgba(0, 0, 0, 0.75);
+    border: 1px solid lightgrey;
+}
+
+
+
+.user-booking-info_none {
+    bottom: 50px;
+
+    position: fixed;
+    z-index: 1500;
+    right: 10px;
+    padding: 2px 5px 2px 5px;
+    background: rgba(255, 255, 255, 0.8);
+    border: 1px solid lightgrey;
+}

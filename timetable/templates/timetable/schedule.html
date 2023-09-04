@@ -1,0 +1,264 @@
+{% extends 'base.html' %}
+
+{% block title %} {{ CenterSchedule_date }} schedule {% endblock %}
+
+{% block header %}
+    {% load staticfiles %}
+{#    <script src="{% static 'vanillatoasts.js' %}"></script>#}
+{#    <link href="{% static 'vanillatoasts.css' %}" rel="stylesheet"/>#}
+    <link rel="stylesheet" type="text/css" href="{% static 'timetable/style_timetable.css' %}"/>
+    <script src="https://code.jquery.com/jquery-3.3.1.js"></script>
+{% endblock %}
+
+{% block body %}
+    <div class="headline sticky">
+        schedule
+        <form class="navbar-form">
+            <input class="form-control py-0" id="userInput" type="text"
+                   placeholder="search by keywords..." value="{{ user_center }}">
+        </form>
+    </div>
+    <div class="container-fluid">
+        {% if class_list %}
+            {% for thisday_classDetails in class_list %}
+                <div class="row schedule_title sticky">
+                    <div class="col-sm-6 px-1">{{ thisday_classDetails.0.0 }}</div>
+                    <div class="col-sm-6 px-1"></div>
+                </div>
+                <div class="row schedule_label">
+                    <div class="col-sm-1 d-none d-sm-block px-1"><b>time</b></div>
+                    <div class="col-sm-3 d-none d-sm-block px-1"><b>class</b></div>
+                    <div class="col-sm-3 d-none d-sm-block px-1"><b>location</b></div>
+                    <div class="col-sm-3 d-none d-sm-block px-1"><b>teacher</b></div>
+                    <div class="col-sm-1 d-none d-sm-block px-1"><b>length</b></div>
+                    <div class="col-sm-1 d-none d-sm-block px-1"></div>
+                </div>
+                {% for classDetails in thisday_classDetails.1 %}
+                    <div id="schedule_row">
+                        {% if user.is_authenticated %}
+                            {% if classDetails.id in class_in_past %}
+                                {% if classDetails.id in user_booked %}
+                                    <span class="anchor_classDetail" id="class_{{ classDetails.id }}"></span>
+                                    <a>
+                                        <div class="row schedule_content_booked_past">
+                                            <div class="d-none">{{ thisday_classDetails.0.1 }}</div>
+                                            <div class="col-3 col-sm-1 text-right text-sm-left px-1 phone_large">{{ classDetails.start_time }}</div>
+                                            <div class="col-7 col-sm-3 px-1 phone_large">{{ classDetails.class_name }}</div>
+                                            <div class="col-2 col-sm-1 text-right text-sm-left px-1 phone_large order-sm-12 phone_small"></div>
+                                            <div class="col-3 col-sm-1 text-right text-sm-left px-1 order-sm-11 phone_small">{{ classDetails.duration }}</div>
+                                            <div class="col-auto col-sm-3 px-1 phone_small">{{ classDetails.location }}</div>
+                                            <div class="col-auto col-sm-3 px-1 phone_small">{{ classDetails.teacher }}</div>
+                                        </div>
+                                    </a>
+                                {% else %}
+                                    <span class="anchor_classDetail" id="class_{{ classDetails.id }}"></span>
+                                    <a>
+                                        <div class="row schedule_content_past">
+                                            <div class="d-none">{{ thisday_classDetails.0.1 }}</div>
+                                            <div class="col-3 col-sm-1 text-right text-sm-left px-1 phone_large">{{ classDetails.start_time }}</div>
+                                            <div class="col-7 col-sm-3 px-1 phone_large">{{ classDetails.class_name }}</div>
+                                            <div class="col-2 col-sm-1 text-right text-sm-left px-1 phone_large order-sm-12 phone_small"></div>
+                                            <div class="col-3 col-sm-1 text-right text-sm-left px-1 order-sm-11 phone_small">{{ classDetails.duration }}</div>
+                                            <div class="col-auto col-sm-3 px-1 phone_small">{{ classDetails.location }}</div>
+                                            <div class="col-auto col-sm-3 px-1 phone_small">{{ classDetails.teacher }}</div>
+                                        </div>
+                                    </a>
+                                {% endif %}
+                            {% else %}
+                                {% if classDetails.id in user_booked %}
+                                    <span class="anchor_classDetail" id="class_{{ classDetails.id }}"></span>
+                                    <a>
+                                        <div class="row schedule_content_booked">
+                                            <div class="d-none">{{ thisday_classDetails.0.1 }}</div>
+                                            <div class="col-3 col-sm-1 text-right text-sm-left px-1 phone_large">{{ classDetails.start_time }}</div>
+                                            <div class="col-7 col-sm-3 px-1 phone_large">{{ classDetails.class_name }}</div>
+                                            <div class="col-2 col-sm-1 text-right text-sm-left px-1 phone_large order-sm-12 phone_small"></div>
+                                            <div class="col-3 col-sm-1 text-right text-sm-left px-1 order-sm-11 phone_small">{{ classDetails.duration }}</div>
+                                            <div class="col-auto col-sm-3 px-1 phone_small">{{ classDetails.location }}</div>
+                                            <div class="col-auto col-sm-3 px-1 phone_small">{{ classDetails.teacher }}</div>
+                                        </div>
+                                    </a>
+                                {% elif classDetails.id in user_listed or classDetails.id in user_waited %}
+                                    <span class="anchor_classDetail" id="class_{{ classDetails.id }}"></span>
+                                    <a>
+                                        <div class="row schedule_content_listed">
+                                            <div class="d-none">{{ thisday_classDetails.0.1 }}</div>
+                                            <div class="col-3 col-sm-1 text-right text-sm-left px-1 phone_large">{{ classDetails.start_time }}</div>
+                                            <div class="col-7 col-sm-3 px-1 phone_large">{{ classDetails.class_name }}</div>
+                                            {% if classDetails.id in user_waited %}
+                                                {% for item in user_waited_items_set %}
+                                                    {% if item.class_item.id == classDetails.id %}
+                                                        <div class="col-2 col-sm-1 text-right text-sm-right px-1 phone_large order-sm-12 phone_small">
+                                                            #{{ item.waitlist_position }}
+                                                        </div>
+                                                    {% endif %}
+                                                {% endfor %}
+                                            {% else %}
+                                                <div class="col-1 col-sm-1 text-right text-sm-left px-1 phone_large order-sm-12 phone_small"></div>
+                                            {% endif %}
+                                            <div class="col-3 col-sm-1 text-right text-sm-left px-1 order-sm-11 phone_small">{{ classDetails.duration }}</div>
+                                            <div class="col-auto col-sm-3 px-1 phone_small">{{ classDetails.location }}</div>
+                                            <div class="col-auto col-sm-3 px-1 phone_small">{{ classDetails.teacher }}</div>
+                                        </div>
+                                    </a>
+                                {% elif classDetails.id in user_selected %}
+                                    <span class="anchor_classDetail" id="class_{{ classDetails.id }}"></span>
+                                    <a href="{% url 'booking:delete_from_selection_schedule' classDetails.id %}">
+                                        <div class="row schedule_content_selected">
+                                            <div class="d-none">{{ thisday_classDetails.0.1 }}</div>
+                                            <div class="col-3 col-sm-1 text-right text-sm-left px-1 phone_large">{{ classDetails.start_time }}</div>
+                                            <div class="col-7 col-sm-3 px-1 phone_large">{{ classDetails.class_name }}</div>
+                                            <div class="col-2 col-sm-1 text-right text-sm-left px-1 phone_large order-sm-12 phone_small"></div>
+                                            <div class="col-3 col-sm-1 text-right text-sm-left px-1 order-sm-11 phone_small">{{ classDetails.duration }}</div>
+                                            <div class="col-auto col-sm-3 px-1 phone_small">{{ classDetails.location }}</div>
+                                            <div class="col-auto col-sm-3 px-1 phone_small">{{ classDetails.teacher }}</div>
+                                        </div>
+                                    </a>
+                                {% elif classDetails.id in class_in_two or classDetails.id in class_before_nine or classDetails.id in class_audio %}
+                                    <span class="anchor_classDetail" id="class_{{ classDetails.id }}"></span>
+                                    <a>
+                                        <div class="row schedule_content_expired">
+                                            <div class="d-none">{{ thisday_classDetails.0.1 }}</div>
+                                            <div class="col-3 col-sm-1 text-right text-sm-left px-1 phone_large">{{ classDetails.start_time }}</div>
+                                            <div class="col-7 col-sm-3 px-1 phone_large">{{ classDetails.class_name }}</div>
+                                            <div class="col-2 col-sm-1 text-right text-sm-left px-1 phone_large order-sm-12 phone_small"></div>
+                                            <div class="col-3 col-sm-1 text-right text-sm-left px-1 order-sm-11 phone_small">{{ classDetails.duration }}</div>
+                                            <div class="col-auto col-sm-3 px-1 phone_small">{{ classDetails.location }}</div>
+                                            <div class="col-auto col-sm-3 px-1 phone_small">{{ classDetails.teacher }}</div>
+                                        </div>
+                                    </a>
+                                {% else %}
+                                    <span class="anchor_classDetail" id="class_{{ classDetails.id }}"></span>
+                                    <a href="{% url 'booking:add_to_selection_schedule' classDetails.id %}">
+                                        <div class="row schedule_content">
+                                            <div class="d-none">{{ thisday_classDetails.0.1 }}</div>
+                                            <div class="col-3 col-sm-1 text-right text-sm-left px-1 phone_large">{{ classDetails.start_time }}</div>
+                                            <div class="col-7 col-sm-3 px-1 phone_large">{{ classDetails.class_name }}</div>
+                                            <div class="col-2 col-sm-1 text-right text-sm-left px-1 phone_large order-sm-12 phone_small"></div>
+                                            <div class="col-3 col-sm-1 text-right text-sm-left px-1 order-sm-11 phone_small">{{ classDetails.duration }}</div>
+                                            <div class="col-auto col-sm-3 px-1 phone_small">{{ classDetails.location }}</div>
+                                            <div class="col-auto col-sm-3 px-1 phone_small">{{ classDetails.teacher }}</div>
+                                        </div>
+                                    </a>
+                                {% endif %}
+                            {% endif %}
+                        {% else %}
+                            {% if classDetails.id in class_in_past %}
+                                <span class="anchor_classDetail" id="class_{{ classDetails.id }}"></span>
+                                <a>
+                                    <div class="row schedule_content_past">
+                                        <div class="d-none">{{ thisday_classDetails.0.1 }}</div>
+                                        <div class="col-3 col-sm-1 text-right text-sm-left px-1 phone_large">{{ classDetails.start_time }}</div>
+                                        <div class="col-7 col-sm-3 px-1 phone_large">{{ classDetails.class_name }}</div>
+                                        <div class="col-2 col-sm-1 text-right text-sm-left px-1 phone_large order-sm-12 phone_small"></div>
+                                        <div class="col-3 col-sm-1 text-right text-sm-left px-1 order-sm-11 phone_small">{{ classDetails.duration }}</div>
+                                        <div class="col-auto col-sm-3 px-1 phone_small">{{ classDetails.location }}</div>
+                                        <div class="col-auto col-sm-3 px-1 phone_small">{{ classDetails.teacher }}</div>
+                                    </div>
+                                </a>
+                            {% else %}
+                                <span class="anchor_classDetail" id="class_{{ classDetails.id }}"></span>
+                                <a>
+                                    <div class="row schedule_content">
+                                        <div class="d-none">{{ thisday_classDetails.0.1 }}</div>
+                                        <div class="col-3 col-sm-1 text-right text-sm-left px-1 phone_large">{{ classDetails.start_time }}</div>
+                                        <div class="col-7 col-sm-3 px-1 phone_large">{{ classDetails.class_name }}</div>
+                                        <div class="col-2 col-sm-1 text-right text-sm-left px-1 phone_large order-sm-12 phone_small"></div>
+                                        <div class="col-3 col-sm-1 text-right text-sm-left px-1 order-sm-11 phone_small">{{ classDetails.duration }}</div>
+                                        <div class="col-auto col-sm-3 px-1 phone_small">{{ classDetails.location }}</div>
+                                        <div class="col-auto col-sm-3 px-1 phone_small">{{ classDetails.teacher }}</div>
+                                    </div>
+                                </a>
+                            {% endif %}
+                        {% endif %}
+                    </div>
+                {% endfor %}
+                <br>
+            {% endfor %}
+            <br>
+            <br>
+            <br>
+        {% else %}
+            <div class="schedule_title sticky">
+                <p>>>></p>
+                <p>Schedule doesn't exist yet!</p>
+                <p>Check back later.</p>
+            </div>
+        {% endif %}
+    </div>
+    <script>
+        <!--JQUERY SEARCH-->
+        $('html').bind('keypress', function (e) {
+            if (e.keyCode == 13) {
+                return false;
+            }
+        });
+        $(document).ready(function () {
+            var value = $("#userInput").val().toLowerCase();
+            $("#userInput").on("keyup", function () {
+                var value = $(this).val().toLowerCase();
+
+                $("#schedule_row a").filter(function () {
+                    $(this).toggle(
+                        value.split(',').every(val => $(this).text().toLowerCase().indexOf(val) > -1)
+                    )
+                });
+            });
+            $("#userInput").keyup()
+        });
+    </script>
+{% endblock %}
+
+{% block ws_channels %}
+    {% if user.is_authenticated and user.is_active %}
+        <!-- channels -->
+        <script>
+            var ws_scheme = window.location.protocol == "https:" ? "wss" : "ws";
+            var chatSocket = new WebSocket(ws_scheme + '://' +
+                window.location.host + '/ws/notification/' +
+                '{{ user.username }}' + '/');
+
+            chatSocket.onmessage = function (e) {
+                var data = JSON.parse(e.data);
+                var text = data['text'];
+                var type = data['level'];
+                createToasts(text, type);
+            };
+
+            chatSocket.onclose = function (e) {
+                console.error('Chat socket closed unexpectedly');
+            };
+
+            function createToasts(text, level) {
+                VanillaToasts.create({
+                    text: text,
+                    type: level, // success, info, warning, error   / optional parameter
+                    timeout: 10000 // hide after 10000ms, // optional parameter
+                });
+            }
+        </script>
+    {% endif %}
+{% endblock %}
+
+{% block footer %}
+    <div class="user-booking-info">
+        {% if user.is_authenticated %}
+            {% if user_selected_amount == 1 %}
+                <div class="user-booking-info_item">
+                    <a class="add_to_schedule_item" href="{% url 'booking:confirm_selection_all' %}">
+                        [ ADD {{ user_selected_amount }} ITEM TO BOOKING ]</a>
+                </div>
+            {% elif user_selected_amount > 1 %}
+                <div class="user-booking-info_item">
+                    <a class="add_to_schedule_item" href="{% url 'booking:confirm_selection_all' %}">
+                        [ ADD {{ user_selected_amount }} ITEMS TO BOOKING ]</a>
+                </div>
+            {% else %}
+                <div class="user-booking-info_none">
+                    <a class="add_to_schedule_none" href="{% url 'booking:confirm_selection_all' %}">[ ADD ITEM TO
+                        BOOKING ]</a>
+                </div>
+            {% endif %}
+        {% endif %}
+    </div>
+{% endblock %}
