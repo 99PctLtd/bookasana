@@ -1,0 +1,42 @@
+<!-- templates/signup.html -->
+{% extends 'base.html' %}
+
+{% load crispy_forms_tags %}
+
+{% block title %}account activation{% endblock %}
+
+{% block header %}
+    {% load staticfiles %}
+    <link rel="stylesheet" type="text/css" href="{% static 'authentication/style_edit_profile.css' %}"/>
+{% endblock %}
+
+{% block body %}
+    <div class="container theme-showcase" role="main">
+        <div class="container-body">
+            <h1 class="container-title">account activation</h1>
+            <p>
+                {{ username }}, you are almost done. Please complete the
+                form below to activate your account. Validation of your
+                pure account will be carried out upon submission.
+            </p>
+            <br>
+            <form method="post">
+                {% csrf_token %}
+                {{ form.first_name|as_crispy_field }}
+                {{ form.last_name|as_crispy_field }}
+                {{ form.mobile_phone|as_crispy_field }}
+                {{ form.pure_login|as_crispy_field }}
+                {{ form.pure_password|as_crispy_field }}
+                <button class="submit_button" type="submit"><b>[ SUBMIT ]</b></button>
+            </form>
+            <br>
+
+        </div>
+    </div>
+{% endblock %}
+
+{% block ws_channels %}
+{% endblock %}
+
+{% block footer %}
+{% endblock %}

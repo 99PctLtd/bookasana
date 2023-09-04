@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+
+{% block title %}registration closed{% endblock %}
+
+{% block header %}
+    {% load staticfiles %}
+    <link rel="stylesheet" type="text/css" href="{% static 'authentication/style_signup.css' %}"/>
+{% endblock %}
+
+{% block body %}
+    <div class="container theme-showcase" role="main">
+        <div class="container-body">
+            <br><br><br><br>
+            <h2>registration closed</h2>
+            <p>
+                We are not accepting new members at the moment, we will open for new member registration from time to time without advance notice.
+            </p>
+
+        </div>
+    </div>
+{% endblock %}
+
+{% block ws_channels %}
+{% endblock %}
+
+{% block footer %}
+{% endblock %}

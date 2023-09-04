@@ -1,0 +1,32 @@
+<!-- templates/registration/login.html -->
+{% extends 'base.html' %}
+
+{% load crispy_forms_tags %}
+
+{% block title %}login{% endblock %}
+
+{% block header %}
+    {% load staticfiles %}
+    <link rel="stylesheet" type="text/css" href="{% static 'authentication/style_signup.css' %}"/>
+{% endblock %}
+
+{% block body %}
+    <div class="container theme-showcase" role="main">
+        <div class="container-body">
+            <br><br><br>
+            <h2>login</h2>
+            <form method="post">
+                {% csrf_token %}
+                {{ form|crispy }}
+                <input class="submit_button" type="submit" value="[ LOGIN ]">
+                <a class="submit_button float-right" href="{% url 'authentication:password_reset' %}"><b>[ FORGET PASSWORD ]</b></a>
+            </form>
+        </div>
+    </div>
+{% endblock %}
+
+{% block ws_channels %}
+{% endblock %}
+
+{% block footer %}
+{% endblock %}

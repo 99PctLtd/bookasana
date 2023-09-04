@@ -1,0 +1,42 @@
+<!-- templates/signup.html -->
+{% extends 'base.html' %}
+
+{% block title %}edit profile{% endblock %}
+
+{% block header %}
+    {% load staticfiles %}
+    <link rel="stylesheet" type="text/css" href="{% static 'authentication/style_edit_profile.css' %}"/>
+{% endblock %}
+
+{% load crispy_forms_tags %}
+
+{% block body %}
+    <div class="container theme-showcase" role="main">
+        <div class="container-body">
+            <h1 class="container-title">edit my profile</h1>
+            <form method="post" class="post-form">
+                {% csrf_token %}
+                {{ form.first_name|as_crispy_field }}
+                {{ form.last_name|as_crispy_field }}
+                {{ form.mobile_phone|as_crispy_field }}
+                {{ form.pure_login|as_crispy_field }}
+                {{ form.pure_password|as_crispy_field }}
+                <div class="form-row">
+                    <div class="col-6">
+                        <button class="submit_button" type="submit">[ UPDATE PROFILE ]</button>
+                    </div>
+                    <div class="col-6 text-right">
+                        <a class="edit_password" href="{% url 'authentication:ChangePassword' %}"><b>[ EDIT PASSWORD ]</b></a>
+                    </div>
+                </div>
+            </form>
+            <br>
+        </div>
+    </div>
+{% endblock %}
+
+{% block ws_channels %}
+{% endblock %}
+
+{% block footer %}
+{% endblock %}

@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+
+{% block title %}account inactive{% endblock %}
+
+{% block header %}
+    {% load staticfiles %}
+    <link rel="stylesheet" type="text/css" href="{% static 'authentication/style_signup.css' %}"/>
+{% endblock %}
+
+{% block body %}
+    <div class="container theme-showcase" role="main">
+        <div class="container-body">
+            <br><br><br><br>
+            <h2>inactive account</h2>
+            <p>
+                There seems to be some issue with your account,
+                please contact admin@bookasana.com for more information.
+                with your username and pure login
+            </p>
+        </div>
+    </div>
+{% endblock %}
+
+{% block ws_channels %}
+{% endblock %}
+
+{% block footer %}
+{% endblock %}

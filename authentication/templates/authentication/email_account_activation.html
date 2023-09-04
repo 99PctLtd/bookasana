@@ -1,0 +1,12 @@
+{% autoescape off %}
+    You are receiving this email because you have created a bookasana account with username "{{ user.username }}".
+
+    Please click on the link below to confirm your registration and activate your account:
+
+
+    http://{{ domain }}{% url 'authentication:activate' uidb64=uid token=token %}
+    (This link will expire in 7 days.)
+
+
+    If you are getting this email by mistake, please ignore this email.
+{% endautoescape %}

@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+
+{% block title %}registration{% endblock %}
+
+{% block header %}
+    {% load staticfiles %}
+    <link rel="stylesheet" type="text/css" href="{% static 'authentication/style_signup.css' %}"/>
+{% endblock %}
+
+{% block body %}
+    <div class="container theme-showcase" role="main">
+        <div class="container-body">
+            <br><br><br><br>
+            <h2>invalid activation</h2>
+            <p>
+                Oops... There seems to be some issue with the confirmation link, please try again.
+            </p>
+            <p>
+                If this issue persist, please send an email to
+                <a href="mailto:admin@bookasana.com?Subject=General%20enquiry">
+                    <b>admin@bookasana.com</b></a>, we will look into it as soon as passible.
+            </p>
+        </div>
+    </div>
+{% endblock %}
+
+{% block ws_channels %}
+{% endblock %}
+
+{% block footer %}
+{% endblock %}

@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+
+{% block title %}registration{% endblock %}
+
+{% block header %}
+    {% load staticfiles %}
+    <link rel="stylesheet" type="text/css" href="{% static 'authentication/style_signup.css' %}"/>
+{% endblock %}
+
+{% block body %}
+    <div class="container theme-showcase" role="main">
+        <div class="container-body">
+            <br><br><br><br>
+            <h2>almost there...</h2>
+            <p>
+                We have sent you a confirmation email, you should
+                receive it shortly. Please follow the instructions to
+                complete your registration.
+            </p>
+            <p>
+                If you do not receive an email, please make sure you
+                have entered the correct Pure login/email address, and
+                check your spam folder.
+            </p>
+        </div>
+    </div>
+{% endblock %}
+
+{% block ws_channels %}
+{% endblock %}
+
+{% block footer %}
+{% endblock %}
