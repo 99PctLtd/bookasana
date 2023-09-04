@@ -1,0 +1,100 @@
+{% extends 'base.html' %}
+
+{% block title %} my history {% endblock %}
+
+{% block header %}
+    {% load staticfiles %}
+    <link rel="stylesheet" type="text/css" href="{% static 'booking/style_history.css' %}"/>
+    <script src="https://code.jquery.com/jquery-3.3.1.js"></script>
+{% endblock %}
+
+{% block body %}
+    <div class="headline sticky">
+        my history
+    </div>
+    <div class="container-fluid">
+        <div class="row schedule_label">
+            <div class="col-sm-2 d-none d-sm-block px-1"><b>day</b></div>
+            <div class="col-sm-1 d-none d-sm-block px-1"><b>time</b></div>
+            <div class="col-sm-2 d-none d-sm-block px-1"><b>class</b></div>
+            <div class="col-sm-2 d-none d-sm-block px-1"><b>teacher</b></div>
+            <div class="col-sm-2 d-none d-sm-block px-1"><b>location</b></div>
+            <div class="col-sm-1 d-none d-sm-block px-1"><b>pos.</b></div>
+            <div class="col-sm-1 d-none d-sm-block px-1"><b>token</b></div>
+            <div class="col-sm-1 d-none d-sm-block px-1"><b>status</b></div>
+        </div>
+        {% if history_set %}
+            {% for history in history_set %}
+                <div id="schedule_row">
+                    <a>
+                        <div class="row schedule_content_booking">
+                            <div class="col-3 col-sm-1 text-right text-sm-left px-1 order-sm-2 phone_large">
+                                {{ history.1.class_item.start_time }}
+                            </div>
+                            <div class="col-7 col-sm-2 px-1 order-sm-3 phone_large">
+                                {{ history.1.class_item.class_name }}
+                            </div>
+                            <div class="col-2 col-sm-1 px-1 text-right text-sm-left order-sm-8 phone_large">
+                                {% if history.1.waitlist_position > 0 %}
+                                    w{{ history.1.waitlist_position }}
+                                {% endif %}
+                            </div>
+                            <div class="col-3 col-sm-2 text-right text-sm-left px-1 order-sm-1 phone_small">
+                                {{ history.0 }}
+                            </div>
+                            <div class="col-auto col-sm-2 px-1 order-sm-7 phone_small">
+                                {{ history.1.class_item.location }}
+                            </div>
+                            <div class="col-auto col-sm-2 px-1 order-sm-5 phone_small">
+                                {{ history.1.class_item.teacher }}
+                            </div>
+                            <div class="d-sm-none w-100"></div>
+                            <div class="col-3 d-sm-none text-right px-1 phone_small">
+                                token used :
+                            </div>
+                            <div class="col-3 col-sm-1 px-1 order-sm-9 phone_small">
+                                {{ history.1.token_used }}
+                            </div>
+                            {% if history.1.is_cancelled %}
+                                {% if history.1.waitlist_position == 0 %}
+                                    <div class="col-6 col-sm-1 text-right text-sm-left px-1 order-sm-12 schedule_action">cancelled</div>
+                                {% else %}
+                                    <div class="col-6 col-sm-1 text-right text-sm-left px-1 order-sm-12 schedule_action">wait cnl.</div>
+                                {% endif %}
+                            {% elif history.1.is_booked_previously %}
+                                <div class="col-6 col-sm-1 text-right text-sm-left px-1 order-sm-12 schedule_action"><b>booked</b></div>
+                            {% elif history.1.is_late_cancelled %}
+                                <div class="col-6 col-sm-1 text-right text-sm-left px-1 order-sm-12 schedule_action"><b>late cancel</b></div>
+                            {% endif %}
+                        </div>
+                    </a>
+                </div>
+            {% endfor %}
+        {% else %}
+            <div id="schedule_row">
+                <div class="row schedule_content_booking">
+                    <div class="col-md-12">you don't have any booking history.</div>
+                </div>
+            </div>
+        {% endif %}
+        <div id="schedule_row">
+            <div class="row schedule_content_booking">
+                <div class="col-md-11 px-1"></div>
+                <div class="col-12 col-md-1 text-right text-md-left px-1 schedule_action">
+                    <a class="click_on_white" href={% url 'booking:my_class' %}>
+                        <b>[ my class ]</b>
+                    </a>
+                </div>
+            </div>
+            <br>
+        </div>
+        <br>
+        <br>
+    </div>
+{% endblock %}
+
+{% block ws_channels %}
+{% endblock %}
+
+{% block footer %}
+{% endblock %}

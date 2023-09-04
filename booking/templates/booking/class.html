@@ -1,0 +1,695 @@
+{% extends 'base.html' %}
+
+{% block title %} my class {% endblock %}
+
+{% block header %}
+    {% load staticfiles %}
+{#    <script src="{% static 'vanillatoasts.js' %}"></script>#}
+{#    <link href="{% static 'vanillatoasts.css' %}" rel="stylesheet"/>#}
+    <link rel="stylesheet" type="text/css" href="{% static 'booking/style_class.css' %}"/>
+{% endblock %}
+
+{% block body %}
+    {% load octicons %}
+    <div class="headline sticky">
+        my class
+    </div>
+    <div class="container-fluid">
+        <!--My BOOKING-->
+        <div class="row schedule_title">
+            <div class="col-sm-4 px-1">my future</div>
+            <div class="col-sm-8"></div>
+        </div>
+        {% if booked_list or waited_list or listed_list_free or listed_list_token or selected_list %}
+            <!--My Confirmed Booking-->
+            {% if booked_list %}
+                <div class="row schedule_label">
+                    <div class="col-sm-12 d-sm-block schedule_label_woUnderline px-1"><b>confirmed booking</b></div>
+                    <div class="col-sm-1 d-none d-sm-block px-1"><b>day</b></div>
+                    <div class="col-sm-1 d-none d-sm-block px-1"><b>time</b></div>
+                    <div class="col-sm-2 d-none d-sm-block px-1"><b>class</b></div>
+                    <div class="col-sm-2 d-none d-sm-block px-1"><b>teacher</b></div>
+                    <div class="col-sm-3 d-none d-sm-block px-1"><b>location</b></div>
+                    <div class="col-sm-1 d-none d-sm-block px-1"><b>token</b></div>
+                    <div class="col-sm-1 d-none d-sm-block px-1"><b>pos.</b></div>
+                    <div class="col-sm-1 d-none d-sm-block px-1"><b>action</b></div>
+                </div>
+                {% for booking in booked_list %}
+                    <div id="schedule_row">
+                        <div class="row schedule_content_confirmed">
+                            <div class="schedule_booked col-3 col-sm-1 text-right text-sm-left px-1 order-sm-2 phone_large">
+                                {{ booking.1.class_item.start_time }}
+                            </div>
+                            <div class="schedule_booked col-7 col-sm-2 px-1 order-sm-3 phone_large">
+                                {{ booking.1.class_item.class_name }}
+                            </div>
+                            <div class="schedule_booked col-2 col-sm-1 text-right text-sm-left px-1 order-sm-11 phone_large"></div>
+                            <div class="schedule_booked col-3 col-sm-1 text-right text-sm-left px-1 order-sm-1 phone_small">
+                                {{ booking.0 }}
+                            </div>
+                            <div class="schedule_booked col-auto col-sm-3 px-1 order-sm-7 phone_small">
+                                {{ booking.1.class_item.location }}
+                            </div>
+                            <div class="schedule_booked col-auto col-sm-2 px-1 order-sm-5 phone_small">
+                                {{ booking.1.class_item.teacher }}
+                            </div>
+                            <div class="schedule_booked d-sm-none w-100"></div>
+                            <div class="schedule_booked col-3 d-sm-none text-right px-1 phone_small">
+                                token used
+                            </div>
+                            <div class="schedule_booked col-3 col-sm-1 px-1 order-sm-8 phone_small">
+                                {{ booking.1.token_used }}
+                            </div>
+                            {% if booking.1.class_item.date_time_field > date_today %}
+                                <div class="schedule_booked col-6 col-sm-1 text-right text-sm-left px-1 order-sm-12 schedule_action">
+                                    <a class="btn btn-sm btn_white" role="button"
+                                       href="#" data-toggle="modal"
+                                       data-target="#ConfirmedCancelModal_{{ booking.1.id }}"
+                                       title="Cancel confirmed item">
+                                        {% octicon "trashcan" width="12" height="16" %}
+                                    </a>
+                                    {% if not booking.2 %}
+                                        <a class="btn btn-sm btn_darkgrey" role="button"
+                                           href="#" data-toggle="modal"
+                                           data-target="#AddRepeatModal_{{ booking.1.id }}"
+                                           title="Repeat weekly">
+                                            {% octicon "sync" width="12" height="16" %}
+                                        </a>
+                                    {% else %}
+                                        <a class="btn btn-sm btn_white" role="button"
+                                           href="#" data-toggle="modal"
+                                           data-target="#RemoveRepeatModal_{{ booking.2 }}"
+                                           title="Cancel repeat weekly">
+                                            {% octicon "sync" width="12" height="16" %}
+                                        </a>
+                                    {% endif %}
+                                </div>
+                            {% else %}
+                                <div class="schedule_booked col-6 col-sm-1 text-right text-sm-left px-1 order-sm-12 schedule_action"></div>
+                            {% endif %}
+                        </div>
+                    </div>
+                {% endfor %}
+                <br>
+            {% endif %}
+            <!--My waitlist Booking-->
+            {% if waited_list %}
+                <div class="row schedule_label">
+                    <div class="col-sm-12 d-sm-block schedule_label_woUnderline px-1"><b>wait list booking</b></div>
+                    <div class="col-sm-1 d-none d-sm-block px-1"><b>day</b></div>
+                    <div class="col-sm-1 d-none d-sm-block px-1"><b>time</b></div>
+                    <div class="col-sm-2 d-none d-sm-block px-1"><b>class</b></div>
+                    <div class="col-sm-2 d-none d-sm-block px-1"><b>teacher</b></div>
+                    <div class="col-sm-3 d-none d-sm-block px-1"><b>location</b></div>
+                    <div class="col-sm-1 d-none d-sm-block px-1"><b>token</b></div>
+                    <div class="col-sm-1 d-none d-sm-block px-1"><b>pos.</b></div>
+                    <div class="col-sm-1 d-none d-sm-block px-1"><b>action</b></div>
+                </div>
+                {% for wait in waited_list %}
+                    <div id="schedule_row">
+                        <div class="row schedule_content_waitlisted">
+                            <div class="schedule_listed col-3 col-sm-1 text-right text-sm-left px-1 order-sm-2 phone_large">
+                                {{ wait.1.class_item.start_time }}
+                            </div>
+                            <div class="schedule_listed col-7 col-sm-2 px-1 order-sm-3 phone_large">
+                                {{ wait.1.class_item.class_name }}
+                            </div>
+                            <div class="schedule_listed col-2 col-sm-1 text-right text-sm-left px-1 order-sm-11 phone_large">
+                                w{{ wait.1.waitlist_position }}
+                            </div>
+                            <div class="schedule_listed col-3 col-sm-1 text-right text-sm-left px-1 order-sm-1 phone_small">
+                                {{ wait.0 }}
+                            </div>
+                            <div class="schedule_listed col-auto col-sm-3 px-1 order-sm-7 phone_small">
+                                {{ wait.1.class_item.location }}
+                            </div>
+                            <div class="schedule_listed col-auto col-sm-2 px-1 order-sm-5 phone_small">
+                                {{ wait.1.class_item.teacher }}
+                            </div>
+                            <div class="schedule_listed d-sm-none w-100"></div>
+                            <div class="schedule_listed col-3 d-sm-none text-right px-1 phone_small">
+                                token used
+                            </div>
+                            <div class="schedule_listed col-3 col-sm-1 px-1 order-sm-8 phone_small">
+                                {{ wait.1.token_used }}
+                            </div>
+                            <div class="schedule_listed col-6 col-sm-1 text-right text-sm-left px-1 order-sm-12 schedule_action">
+                                <a class="btn btn-sm btn_white" role="button"
+                                   href="#" data-toggle="modal"
+                                   data-target="#WaitCancelModal_{{ wait.1.id }}"
+                                   title="Cancel wait listed item">
+                                    {% octicon "trashcan" width="12" height="16" %}
+                                </a>
+                                {% if not wait.2 %}
+                                    <a class="btn btn-sm btn_lightgrey" role="button"
+                                       href="#" data-toggle="modal"
+                                       data-target="#AddRepeatModal_{{ wait.1.id }}"
+                                       title="Repeat weekly">
+                                        {% octicon "sync" width="12" height="16" %}
+                                    </a>
+                                {% else %}
+                                    <a class="btn btn-sm btn_white" role="button"
+                                       href="#" data-toggle="modal"
+                                       data-target="#RemoveRepeatModal_{{ wait.2 }}"
+                                       title="Cancel repeat weekly">
+                                        {% octicon "sync" width="12" height="16" %}
+                                    </a>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+                <br>
+            {% endif %}
+            <!--My to Book List-->
+            {% if listed_list_free or listed_list_token %}
+                <div class="row schedule_label">
+                    <div class="col-sm-12 d-sm-block px-1"><b>listed to be booked</b></div>
+                    <div class="col-sm-1 d-none d-sm-block px-1"><b>day</b></div>
+                    <div class="col-sm-1 d-none d-sm-block px-1"><b>time</b></div>
+                    <div class="col-sm-2 d-none d-sm-block px-1"><b>class</b></div>
+                    <div class="col-sm-2 d-none d-sm-block px-1"><b>teacher</b></div>
+                    <div class="col-sm-3 d-none d-sm-block px-1"><b>location</b></div>
+                    <div class="col-sm-1 d-none d-sm-block px-1"><b>token</b></div>
+                    <div class="col-sm-1 d-none d-sm-block px-1"><b>suc. %</b></div>
+                    <div class="col-sm-1 d-none d-sm-block px-1"><b>action</b></div>
+                </div>
+                {% for booking in listed_list_free %}
+                    <div id="schedule_row">
+                        <div class="row schedule_content_listed">
+                            <div class="schedule_listed col-3 col-sm-1 text-right text-sm-left px-1 order-sm-2 phone_large">
+                                {{ booking.1.class_item.start_time }}
+                            </div>
+                            <div class="schedule_listed col-7 col-sm-2 px-1 order-sm-3 phone_large">
+                                {{ booking.1.class_item.class_name }}
+                            </div>
+                            <div class="schedule_listed col-2 col-sm-1 text-right text-sm-left px-1 order-sm-11 phone_large"></div>
+                            <div class="schedule_listed col-3 col-sm-1 text-right text-sm-left px-1 order-sm-1 phone_small">
+                                {{ booking.0 }}
+                            </div>
+                            <div class="schedule_listed col-auto col-sm-3 px-1 order-sm-7 phone_small">
+                                {{ booking.1.class_item.location }}
+                            </div>
+                            <div class="schedule_listed col-auto col-sm-2 px-1 order-sm-5 phone_small">
+                                {{ booking.1.class_item.teacher }}
+                            </div>
+                            <div class="schedule_listed d-sm-none w-100"></div>
+                            <div class="schedule_listed col-3 d-sm-none text-right px-1 phone_small">
+                                token used
+                            </div>
+                            <div class="schedule_listed col-3 col-sm-1 px-1 order-sm-8 phone_small">
+                                {{ booking.1.token_used }}
+                            </div>
+                            <div class="schedule_listed col-6 col-sm-1 text-right text-sm-left px-1 order-sm-12 schedule_action">
+                                <a class="btn btn-sm btn_black" role="button"
+                                   href="#" data-toggle="modal"
+                                   data-target="#ListedCancelModal_{{ booking.1.id }}"
+                                   title="Cancel listed item">
+                                    {% octicon "trashcan" width="12" height="16" %}
+                                </a>
+                                {% if not booking.2 %}
+                                    <a class="btn btn-sm btn_lightgrey" role="button"
+                                       href="#" data-toggle="modal"
+                                       data-target="#AddRepeatModal_{{ booking.1.id }}"
+                                       title="Repeat weekly">
+                                        {% octicon "sync" width="12" height="16" %}
+                                    </a>
+                                {% else %}
+                                    <a class="btn btn-sm btn_black" role="button"
+                                       href="#" data-toggle="modal"
+                                       data-target="#RemoveRepeatModal_{{ booking.2 }}"
+                                       title="Cancel repeat weekly">
+                                        {% octicon "sync" width="12" height="16" %}
+                                    </a>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+                <form method="post">
+                    {% csrf_token %}
+                    {% for booking in listed_list_token %}
+                        <div id="schedule_row">
+                            <div class="row schedule_content_listed">
+                                <div class="schedule_listed col-3 col-sm-1 text-right text-sm-left px-1 order-sm-2 phone_large">
+                                    {{ booking.1.class_item.start_time }}
+                                </div>
+                                <div class="schedule_listed col-7 col-sm-2 px-1 order-sm-3 phone_large">
+                                    {{ booking.1.class_item.class_name }}
+                                </div>
+                                <div class="schedule_listed col-2 col-sm-1 text-right text-sm-left px-1 order-sm-11 phone_large">
+                                    <span title="{{ booking.4.1 }}">
+                                        {{ booking.4.0 }}
+                                    </span>
+                                </div>
+                                <div class="schedule_listed col-3 col-sm-1 text-right text-sm-left px-1 order-sm-1 phone_small">
+                                    {{ booking.0 }}
+                                </div>
+                                <div class="schedule_listed col-auto col-sm-3 px-1 order-sm-7 phone_small">
+                                    {{ booking.1.class_item.location }}
+                                </div>
+                                <div class="schedule_listed col-auto col-sm-2 px-1 order-sm-5 phone_small">
+                                    {{ booking.1.class_item.teacher }}
+                                </div>
+                                <div class="schedule_listed d-sm-none w-100"></div>
+                                <div class="schedule_listed col-3 d-sm-none text-right px-1 phone_small">
+                                    token used
+                                </div>
+                                <div class="schedule_listed col-3 col-sm-1 px-1 order-sm-8 phone_small">
+                                    {{ booking.3.token_used }}
+                                </div>
+                                <div class="schedule_listed col-6 col-sm-1 text-right text-sm-left px-1 order-sm-12 schedule_action">
+                                    <a class="btn btn-sm btn_black" role="button"
+                                       href="#" data-toggle="modal"
+                                       data-target="#ListedCancelModal_{{ booking.1.id }}"
+                                       title="Cancel listed item">
+                                        {% octicon "trashcan" width="12" height="16" %}
+                                    </a>
+                                    {% if not booking.2 %}
+                                        <a class="btn btn-sm btn_lightgrey" role="button"
+                                           href="#" data-toggle="modal"
+                                           data-target="#AddRepeatModal_{{ booking.1.id }}"
+                                           title="Repeat weekly">
+                                            {% octicon "sync" width="12" height="16" %}
+                                        </a>
+                                    {% else %}
+                                        <a class="btn btn-sm btn_black" role="button"
+                                           href="#" data-toggle="modal"
+                                           data-target="#RemoveRepeatModal_{{ booking.2 }}"
+                                           title="Cancel repeat weekly">
+                                            {% octicon "sync" width="12" height="16" %}
+                                        </a>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+                    <div class="row submit_row">
+                        <div class="col-3 col-sm-11 px-1"></div>
+                        <div class="col-9 col-sm-1 text-right text-sm-left px-1">
+                            <button class="submit_button" type="submit">[ update token ]</button>
+                        </div>
+                    </div>
+                </form>
+                <br>
+            {% endif %}
+
+            <!--My Selected List-->
+            {% if selected_list %}
+                <div class="row schedule_label">
+                    <div class="col-sm-12 d-sm-block px-1"><b>pending for confirmation</b></div>
+                    <div class="col-sm-1 d-none d-sm-block px-1"><b>day</b></div>
+                    <div class="col-sm-1 d-none d-sm-block px-1"><b>time</b></div>
+                    <div class="col-sm-2 d-none d-sm-block px-1"><b>class</b></div>
+                    <div class="col-sm-2 d-none d-sm-block px-1"><b>teacher</b></div>
+                    <div class="col-sm-3 d-none d-sm-block px-1"><b>location</b></div>
+                    <div class="col-sm-1 d-none d-sm-block px-1"><b>token</b></div>
+                    <div class="col-sm-1 d-none d-sm-block px-1"><b>pos.</b></div>
+                    <div class="col-sm-1 d-none d-sm-block px-1"><b>action</b></div>
+                </div>
+                {% for booking in selected_list %}
+                    <div id="schedule_row">
+                        <div class="row schedule_content_booking">
+                            <div class="schedule_selected col-3 col-sm-1 text-right text-sm-left px-1 order-sm-2 phone_large">
+                                {{ booking.1.class_item.start_time }}
+                            </div>
+                            <div class="schedule_selected col-7 col-sm-2 px-1 order-sm-3 phone_large">
+                                {{ booking.1.class_item.class_name }}
+                            </div>
+                            <div class="schedule_selected col-2 col-sm-1 text-right text-sm-left px-1 order-sm-11 phone_large"></div>
+                            <div class="schedule_selected col-3 col-sm-1 text-right text-sm-left px-1 order-sm-1 phone_small">
+                                {{ booking.0 }}
+                            </div>
+                            <div class="schedule_selected col-auto col-sm-3 px-1 order-sm-7 phone_small">
+                                {{ booking.1.class_item.location }}
+                            </div>
+                            <div class="schedule_selected col-auto col-sm-2 px-1 order-sm-5 phone_small">
+                                {{ booking.1.class_item.teacher }}
+                            </div>
+                            <div class="schedule_selected d-sm-none w-100"></div>
+                            <div class="schedule_selected col-3 d-sm-none text-right px-1 phone_small">
+                                token used
+                            </div>
+                            <div class="schedule_selected col-3 col-sm-1 px-1 order-sm-8 phone_small">
+                                {{ booking.1.token_used }}
+                            </div>
+                            <div class="schedule_selected col-6 col-sm-1 text-right text-sm-left px-1 order-sm-12 schedule_action">
+                                <a class="btn btn-sm btn_black" role="button"
+                                   href="{% url 'booking:delete_from_selection_info' booking.1.id %}"
+                                   title="Cancel item">
+                                    {% octicon "trashcan" width="12" height="16" %}
+                                </a>
+                                <a class="btn btn-sm btn_black" role="button"
+                                   href="{% url 'booking:confirm_selection_single' booking.1.id %}"
+                                   title="Add selected item to list">
+                                    {% octicon "check" width="12" height="16" %}
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+                <div id="schedule_row">
+                    <div class="row schedule_content_booking">
+                        <div class="col-sm-11"></div>
+                        <div class="col-sm-1 text-right text-sm-left px-1 schedule_action">
+                            <a class="btn btn-sm btn_black" role="button"
+                               href="{% url 'booking:confirm_selection_all' %}"
+                               title="Add all selected items to list">
+                                {% octicon "checklist" width="12" height="16" %}
+                            </a>
+                            <a class="btn_black_text"
+                               href="{% url 'booking:confirm_selection_all' %}"
+                               title="Add all selected items to list">
+                                <b>all {{ user_selected_amount }}</b>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <br>
+            {% endif %}
+        {% else %}
+            <div id="schedule_row">
+                <div class="row schedule_content_booking">
+                    <div class="col-sm-12">you don't have any booking listed.</div>
+                </div>
+            </div>
+            <br>
+            <br>
+        {% endif %}
+
+        <!--My WEEKLY BOOKING-->
+        {% if weekly_list %}
+            <div class="row schedule_title sticky">
+                <div class="col-sm-4 px-1">my weekly booking</div>
+                <div class="col-sm-8 px-1"></div>
+            </div>
+            <div class="row schedule_label">
+                <div class="col-sm-1 d-none d-sm-block px-1"><b>day</b></div>
+                <div class="col-sm-1 d-none d-sm-block px-1"><b>time</b></div>
+                <div class="col-sm-2 d-none d-sm-block px-1"><b>class</b></div>
+                <div class="col-sm-2 d-none d-sm-block px-1"><b>teacher</b></div>
+                <div class="col-sm-3 d-none d-sm-block px-1"><b>location</b></div>
+                <div class="col-sm-1 d-none d-sm-block px-1"><b>token</b></div>
+                <div class="col-sm-1 d-none d-sm-block px-1"><b></b></div>
+                <div class="col-sm-1 d-none d-sm-block px-1"><b>action</b></div>
+            </div>
+            {% for week in weekly_list %}
+                <div id="schedule_row">
+                    <div class="row schedule_content_confirmed">
+                        <div class="schedule_booked col-3 col-sm-1 text-right text-sm-left px-1 order-sm-2 phone_large">
+                            {{ week.1.start_time }}
+                        </div>
+                        <div class="schedule_booked col-7 col-sm-2 px-1 order-sm-3 phone_large">
+                            {{ week.1.class_name }}
+                        </div>
+                        <div class="schedule_booked col-2 col-sm-1 text-right text-sm-left px-1 order-sm-11 phone_large"></div>
+                        <div class="schedule_booked col-3 col-sm-1 text-right text-sm-left px-1 order-sm-1 phone_small">
+                            {{ week.0 }}
+                        </div>
+                        <div class="schedule_booked col-auto col-sm-3 px-1 order-sm-7 phone_small">
+                            {{ week.1.location }}
+                        </div>
+                        <div class="schedule_booked col-auto col-sm-2 px-1 order-sm-5 phone_small">
+                            {{ week.1.teacher }}
+                        </div>
+                        <div class="schedule_booked d-sm-none w-100"></div>
+                        <div class="schedule_booked col-3 d-sm-none text-right px-1 phone_small">
+                            token set
+                        </div>
+                        <div class="schedule_booked col-3 col-sm-1 px-1 order-sm-8 phone_small">
+                            {{ week.1.token_set }}
+                        </div>
+                        <div class="schedule_booked col-6 col-sm-1 text-right text-sm-left px-1 order-sm-12 schedule_action">
+                            <a class="btn btn-sm btn_white" role="button"
+                               href="#" data-toggle="modal"
+                               data-target="#RemoveRepeatModal_{{ week.1.id }}"
+                               title="Cancel repeat weekly">
+                                {% octicon "sync" width="12" height="16" %}
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+            <br>
+        {% endif %}
+
+
+        <!--My HISTORY-->
+        <div class="row schedule_title sticky">
+            <div class="col-sm-4 px-1">my history</div>
+            <div class="col-sm-8 px-1"></div>
+        </div>
+        <div class="row schedule_label">
+            <div class="col-sm-2 d-none d-sm-block px-2"><b>day</b></div>
+            <div class="col-sm-1 d-none d-sm-block px-1"><b>time</b></div>
+            <div class="col-sm-2 d-none d-sm-block px-1"><b>class</b></div>
+            <div class="col-sm-2 d-none d-sm-block px-1"><b>teacher</b></div>
+            <div class="col-sm-3 d-none d-sm-block px-1"><b>location</b></div>
+            <div class="col-sm-1 d-none d-sm-block px-1"><b>token</b></div>
+            <div class="col-sm-1 d-none d-sm-block px-1"><b>status</b></div>
+        </div>
+        {% if history_list %}
+            {% for history in history_list %}
+                {% if not history.1.is_current or history.1.is_late_cancelled or history.1.is_cancelled %}
+                    <div id="schedule_row">
+                        <div class="row schedule_content_booking">
+                            <div class="col-3 col-sm-1 text-right text-sm-left px-1 order-sm-2 phone_large">
+                                {{ history.1.class_item.start_time }}
+                            </div>
+                            <div class="col-7 col-sm-2 px-1 order-sm-3 phone_large">
+                                {{ history.1.class_item.class_name }}
+                            </div>
+                            <div class="col-3 col-sm-2 text-right text-sm-left px-1 order-sm-1 phone_small">
+                                {{ history.0 }}
+                            </div>
+                            <div class="col-auto col-sm-3 px-1 order-sm-7 phone_small">
+                                {{ history.1.class_item.location }}
+                            </div>
+                            <div class="col-auto col-sm-2 px-1 order-sm-5 phone_small">
+                                {{ history.1.class_item.teacher }}
+                            </div>
+                            <div class="d-sm-none w-100"></div>
+                            <div class="col-3 d-sm-none text-right px-1 phone_small">
+                                token used
+                            </div>
+                            <div class="col-3 col-sm-1 px-1 order-sm-8 phone_small">
+                                {{ history.1.token_used }}
+                            </div>
+                            {% if history.1.is_cancelled %}
+                                <div class="col-6 col-sm-1 text-right text-sm-left px-1 order-sm-12 schedule_action">
+                                    cancelled
+                                </div>
+                            {% elif history.1.is_booked_previously %}
+                                <div class="col-6 col-sm-1 text-right text-sm-left px-1 order-sm-12 schedule_action">
+                                    <b>booked</b>
+                                </div>
+                            {% elif history.1.is_late_cancelled %}
+                                <div class="col-6 col-sm-1 text-right text-sm-left px-1 order-sm-12 schedule_action">
+                                    <b>late cancel</b></div>
+                            {% endif %}
+                        </div>
+                    </div>
+                {% endif %}
+            {% endfor %}
+
+            <div id="schedule_row">
+                <div class="row schedule_content_booking">
+                    <div class="col-md-11 px-1"></div>
+                    <div class="col-12 col-md-1 text-right text-md-left px-1 schedule_action">
+                        <a class="click_on_white" href={% url 'booking:my_history' %}>
+                            <b>[ all items ]</b>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <br>
+        {% else %}
+            <div id="schedule_row">
+                <div class="row schedule_content_booking">
+                    <div class="col-sm-12">You don't have any booking history.</div>
+                </div>
+            </div>
+        {% endif %}
+        <br>
+        <br>
+        <br>
+    </div>
+    <!-- The Modal -->
+    {% if cancel_confirmed %}
+        {% for confirmed in cancel_confirmed %}
+            <div class="modal fade" id="ConfirmedCancelModal_{{ confirmed.0 }}">
+                <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <p class="modal-title">Wait a second...</p>
+                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        </div>
+                        <div class="modal-body">
+                            {% if confirmed.2 > 121 %}
+                                <p>Really? Are you going to skip {{ confirmed.1.class_item.class_name }}?</p>
+                            {% elif 120 > confirmed.2 %}
+                                <p>It is a little too late to cancel, less than 2 hours before class start:</p>
+                                <p>- class cancelled less than two hours before starting time will be counted as late
+                                    cancellation.</p>
+                                <p>- 3 or more cumulative late cancellations or no shows within 30 days will result in
+                                    your account being suspended.</p>
+                                <p>- if your account is suspended, we will not be able to book for you.</p>
+                            {% else %}
+                                <p>You have to wait until the last minute? Huh?</p>
+                                <p>Quickly confirm below to avoid late cancellation.</p>
+                                <p>(If you are still reading this, chances are that you are already late, oops...)</p>
+                            {% endif %}
+                        </div>
+                        <div class="modal-footer">
+                            <a href={% url 'booking:delete_from_booked' confirmed.0 %}>Yea, unfortunately so</a>
+                            <a> | </a>
+                            <a href="" data-dismiss="modal">No!!! Take me back</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    {% endif %}
+
+    {% if cancel_wait_list %}
+        {% for wait in cancel_wait_list %}
+            <div class="modal fade" id="WaitCancelModal_{{ wait.0 }}">
+                <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <p class="modal-title">Wait a second...</p>
+                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        </div>
+                        <div class="modal-body">
+                            <p>You are withdrawing {{ wait.1.class_item.class_name }} from wait list,
+                                your current position is {{ wait.1.waitlist_position }}.</p>
+                        </div>
+                        <div class="modal-footer">
+                            <a href={% url 'booking:delete_from_waitlist_info' wait.0 %}>Leave waiting list</a>
+                            <a> | </a>
+                            <a href="" data-dismiss="modal">Will keep waiting</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    {% endif %}
+
+    {% if cancel_listed %}
+        {% for listed in cancel_listed %}
+            <div class="modal fade" id="ListedCancelModal_{{ listed.0 }}">
+                <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <p class="modal-title">Wait a second...</p>
+                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        </div>
+                        <div class="modal-body">
+                            <p>You are withdrawing {{ listed.1.class_item.class_name }}
+                                from booking list.</p>
+                            <p>Please note if you are intending to terminate "Repeat Weekly
+                                Booking", you must cancel with the "Cancel Repeat Weekly" button.
+                                <a class="btn btn-sm btn_black" role="button">
+                                    {% octicon "sync" width="12" height="16" %}
+                                </a>
+                            </p>
+                        </div>
+                        <div class="modal-footer">
+                            <a href={% url 'booking:delete_from_list_info' listed.0 %}>Leave booking list</a>
+                            <a> | </a>
+                            <a href="" data-dismiss="modal">Will keep booking</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    {% endif %}
+
+    {% if future_list %}
+        {% for future in future_list %}
+            <div class="modal fade" id="AddRepeatModal_{{ future.0 }}">
+                <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <p class="modal-title">Adding to Repeat Weekly List</p>
+                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        </div>
+                        <div class="modal-body">
+                            <p>You are adding {{ future.1.class_item.class_name }}
+                                to your Weekly Booking list.</p>
+                            <p>Only class on the same week day that appear exactly the same
+                                will be automatically added to your listed booking. Meaning
+                                all start time, class, teacher and location has to match.</p>
+                            <p>Please ensure you have sufficient tokens in your account
+                                before class registration every week.</p>
+                        </div>
+                        <div class="modal-footer">
+                            <a href={% url 'booking:add_to_repeat_weekly' future.0 %}>Add weekly booking</a>
+                            <a> | </a>
+                            <a href="" data-dismiss="modal">No thanks</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    {% endif %}
+
+    {% if repeat_list %}
+        {% for repeat in repeat_list %}
+            <div class="modal fade" id="RemoveRepeatModal_{{ repeat.0 }}">
+                <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <p class="modal-title">Removing from Repeat Weekly List</p>
+                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        </div>
+                        <div class="modal-body">
+                            <p>You are removing {{ repeat.1.class_name }}
+                                from your Weekly Booking list.</p>
+                        </div>
+                        <div class="modal-footer">
+                            <a href={% url 'booking:delete_from_repeat_weekly' repeat.0 %}>Remove</a>
+                            <a> | </a>
+                            <a href="" data-dismiss="modal">Keep</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    {% endif %}
+{% endblock %}
+
+{% block ws_channels %}
+    {% if user.is_authenticated and user.is_active %}
+        <!-- channels -->
+        <script>
+            var ws_scheme = window.location.protocol == "https:" ? "wss" : "ws";
+            var chatSocket = new WebSocket(ws_scheme + '://' +
+                window.location.host + '/ws/notification/' +
+                '{{ user.username }}' + '/');
+
+            chatSocket.onmessage = function (e) {
+                var data = JSON.parse(e.data);
+                var text = data['text'];
+                var type = data['level'];
+                createToasts(text, type);
+            };
+
+            chatSocket.onclose = function (e) {
+                console.error('Chat socket closed unexpectedly');
+            };
+
+            function createToasts(text, level) {
+                VanillaToasts.create({
+                    text: text,
+                    type: level, // success, info, warning, error   / optional parameter
+                    timeout: 10000 // hide after 10000ms, // optional parameter
+                });
+            }
+        </script>
+    {% endif %}
+{% endblock %}
+
+{% block footer %}
+{% endblock %}
