@@ -370,42 +370,6 @@ def update_timetable(date):
                                             print(f'with     : {current} - test')
                                             break
                                     break
-                        # for detail_latest_compare in sel_latest_set:
-                        #     if not detail_latest_compare == detail_latest:
-                        #         if current_queryset.filter(
-                        #                 location=detail_latest.location,
-                        #                 start_time=detail_latest.start_time,
-                        #                 duration=detail_latest.duration).count() == 1:
-                        #             new_class = current_center_schedule.classdetail_set.create(
-                        #                 start_time=detail_latest.start_time,
-                        #                 class_id=detail_latest.class_id,
-                        #                 class_name=detail_latest.class_name,
-                        #                 teacher=detail_latest.teacher,
-                        #                 assistant=detail_latest.assistant,
-                        #                 location=detail_latest.location,
-                        #                 duration=detail_latest.duration,
-                        #                 date_time_field=detail_latest.date_time_field,
-                        #                 capacity=get_class_capacity(detail_latest.class_name),
-                        #             )
-                        #             print(f"adding   : {new_class}")
-                        #         else:
-                        #             # 1. assuming there can only be two classes happening
-                        #             #    at the same time at any particular location
-                        #             # 2. only one of the two classes change teacher and class
-                        #             for detail_current_compare in current_queryset.filter(
-                        #                     location=detail_latest.location,
-                        #                     start_time=detail_latest.start_time,
-                        #                     duration=detail_latest.duration):
-                        #                 if not detail_current_compare == detail_latest_compare and \
-                        #                         detail_current_compare == detail_latest:
-                        #                     print(f'replacing: {detail_current_compare} - test')
-                        #                     detail_current_compare.class_name = detail_latest.class_name
-                        #                     detail_current_compare.teacher = detail_latest.teacher
-                        #                     detail_current_compare.duration = detail_latest.duration
-                        #                     detail_current_compare.capacity = get_class_capacity(detail_latest.class_name)
-                        #                     detail_current_compare.save()
-                        #                     print(f'with     : {detail_current_compare} - test')
-                        #                     break
                 else:
                     add_class = current_center_schedule.classdetail_set.create(
                         start_time=detail_latest.start_time,
@@ -505,5 +469,3 @@ def schedule_update():
     else:
         print('error obtaining browser cookies, likely caused by reCAPTCHA...')
         print('==================================================')
-
-# schedule_update()
